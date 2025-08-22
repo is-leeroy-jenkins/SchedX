@@ -1,0 +1,28 @@
+site_name: SchedX
+theme:
+  name: material
+
+plugins:
+  - search
+  - mkdocs-jupyter
+  - mkdocstrings:
+      handlers:
+        python:
+          paths: [ . ]
+
+nav:
+  - Home: index.md
+  - Notebook:
+      - Schedule-X: schedule-x.ipynb
+  - Modules:
+      - Overview: modules/index.md
+      - Boogr: modules/boogr.md
+      - Guro: modules/guro.md
+      - Minion: modules/minion.md
+      - Mathy:
+          - Overview: modules/mathy/index.md
+          - Clusters: modules/mathy/clusters.md
+          - Data: modules/mathy/data.md
+          - Models: modules/mathy/models.md
+          - Processors: modules/mathy/processors.md
+  - License: license.md
