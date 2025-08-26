@@ -184,6 +184,102 @@ pip install -r requirements.txt
 > **Disclaimer**: This is for analytical exploration, research, and education purposes.  
 > It is **not** an official OMB/Treasury product; validate against authoritative sources before use.
 
+
+## ⚙️ Step 1 – Imports and Setup
+```
+  import pandas as pd
+  import numpy as np
+  from sklearn.preprocessing import StandardScaler, MinMaxScaler, LabelEncoder, OneHotEncoder
+  from sklearn.impute import SimpleImputer, KNNImputer
+  
+  # Work with numeric and nominal subsets
+  X_numeric = df_numeric.copy()
+  X_nominal = df_nominal.copy()
+
+```
+
+## 📏 Step 2 – Scaling (Numeric Columns)
+- a) StandardScaler → centers data around mean 0, std 1.
+- b) MinMaxScaler → rescales data to [0,1].
+```
+  scaler_standard = StandardScaler()
+  scaler_minmax = MinMaxScaler()
+  
+  scaled_standard = scaler_standard.fit_transform(X_numeric)
+  scaled_minmax = scaler_minmax.fit_transform(X_numeric)
+  
+  df_standard_scaled = pd.DataFrame(scaled_standard, columns=X_numeric.columns)
+  df_minmax_scaled = pd.DataFrame(scaled_minmax, columns=X_numeric.columns)
+  
+  print("StandardScaler Preview:\n", df_standard_scaled.head())
+  print("MinMaxScaler Preview:\n", df_minmax_scaled.head())
+
+```
+
+## 🔖 Step 3 – Encoding (Nominal Columns)
+- LabelEncoder: Converts categories → integers (good for ordinal/categorical with hierarchy).
+- OneHotEncoder: Expands categories into binary dummy variables (best for nominal IDs).
+```
+  # Label Encoding (example on MainAccount)
+  label_encoder = LabelEncoder()
+  X_nominal['MainAccount_LE'] = label_encoder.fit_transform(X_nominal['MainAccount'])
+  
+  # OneHot Encoding (on AgencyCode, MainAccount)
+  onehot_encoder = OneHotEncoder(sparse_output=False, drop='first')
+  onehot_encoded = onehot_encoder.fit_transform(df_excel[['AgencyCode','MainAccount']])
+  
+  df_onehot = pd.DataFrame(
+      onehot_encoded, 
+      columns=onehot_encoder.get_feature_names_out(['AgencyCode','MainAccount'])
+  )
+  
+  print("Label Encoded Preview:\n", X_nominal[['MainAccount','MainAccount_LE']].head())
+  print("OneHot Encoded Preview:\n", df_onehot.head())
+
+```
+
+## 🛠️ Step 4 – Imputation (Missing Values)
+- SimpleImputer: Replace missing values with mean/median/most_frequent/constant.
+- KNNImputer: Replace missing values based on nearest neighbors (handles anomalies better).
+```
+  # SimpleImputer (mean)
+  simple_imputer = SimpleImputer(strategy='mean')
+  df_simple_imputed = pd.DataFrame(
+      simple_imputer.fit_transform(X_numeric),
+      columns=X_numeric.columns
+  )
+  
+  # KNN Imputer
+  knn_imputer = KNNImputer(n_neighbors=5)
+  df_knn_imputed = pd.DataFrame(
+      knn_imputer.fit_transform(X_numeric),
+      columns=X_numeric.columns
+  )
+  
+  print("Simple Imputer Preview:\n", df_simple_imputed.head())
+  print("KNN Imputer Preview:\n", df_knn_imputed.head())
+
+
+```
+
+## 1️⃣ StandardScaler (Z-score normalization)
+- Centers around mean = 0 and scales by std = 1.
+- Useful when data has large magnitude differences.
+```
+  import matplotlib.pyplot as plt
+  import seaborn as sns
+  
+  # Apply StandardScaler
+  scaler_standard = StandardScaler()
+  scaled_standard = scaler_standard.fit_transform(df_numeric)
+  df_standard_scaled = pd.DataFrame(scaled_standard, columns=df_numeric.columns)
+
+```
+
+
+
+
+
 ## 📝 License
 
 #### Sched-X is published under the MIT General Public License v3 [here](https://github.com/is-leeroy-jenkins/Sched-X/blob/master/LICENSE.txt).

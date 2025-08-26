@@ -1,4 +1,5 @@
 site_name: SchedX
+site_description: "A Notebook-Driven Scheduling System with Analytical Modules"
 theme:
   name: material
 
@@ -13,16 +14,16 @@ plugins:
 nav:
   - Home: index.md
   - Notebook:
-      - Schedule-X: schedule-x.ipynb
+      - Schedule-X Notebook: schedule-x.ipynb
   - Modules:
-      - Overview: modules/index.md
       - Boogr: modules/boogr.md
       - Guro: modules/guro.md
       - Minion: modules/minion.md
       - Mathy:
           - Overview: modules/mathy/index.md
+          - Classifiers: modules/mathy/classifiers.md
+          - Regressors: modules/mathy/regressors.md
           - Clusters: modules/mathy/clusters.md
           - Data: modules/mathy/data.md
-          - Models: modules/mathy/models.md
-          - Processors: modules/mathy/processors.md
+          - Preprocessors: modules/mathy/preprocessors.md
   - License: license.md
