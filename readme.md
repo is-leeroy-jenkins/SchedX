@@ -125,46 +125,6 @@ A minimal table might look like:
 
 
 
-## 🎯 Configuration
-
-- Set these variables near the top of the notebook:
-
-```
-python
-# ---- Configuration ----
-DATA_PATH  = "your_data.csv"   # Path to CSV
-COL_PY     = "PY"
-COL_CY     = "CY"
-COL_BY     = "BY"
-DROP_ZEROS = True              # Exclude zeros for plots/tests
-ALPHA      = 0.05              # Significance level
-CI_LEVEL   = 0.95              # Confidence interval level
-MU_0       = 0.0               # Baseline for one-sample t-test on CY
-```
-
-**Tips**
-
-- Use policy-relevant baselines for `MU_0` (e.g., enacted/planned levels) when zero is not
-  meaningful.
-- Filter the DataFrame by agency/account before running stats to produce slice-specific results.
-
-## 📦 Dependencies
-
-| Package       | Description                          | Link                                               |
-|---------------|--------------------------------------|----------------------------------------------------|
-| numpy         | Numerical computing                   | [numpy.org](https://numpy.org/)                    |
-| pandas        | Data manipulation                     | [pandas.pydata.org](https://pandas.pydata.org/)    |
-| matplotlib    | Plotting                              | [matplotlib.org](https://matplotlib.org/)          |
-| seaborn       | Statistical plots                     | [seaborn.pydata.org](https://seaborn.pydata.org/)  |
-| scikit-learn  | Machine learning models               | [scikit-learn.org](https://scikit-learn.org/)      |
-| xgboost       | Extreme gradient boosting             | [xgboost.readthedocs.io](https://xgboost.readthedocs.io/) |
-| statsmodels   | Statistical modeling & ANOVA          | [statsmodels.org](https://www.statsmodels.org/)    |
-| openpyxl      | Excel I/O                             | [openpyxl.readthedocs.io](https://openpyxl.readthedocs.io/) |
-| fitz (PyMuPDF)| PDF parsing                           | [pymupdf.readthedocs.io](https://pymupdf.readthedocs.io/) |
-| loguru        | Logging                               | [github.com/Delgan/loguru](https://github.com/Delgan/loguru) |
-
-
-
 
 #### Install with:
 
@@ -185,7 +145,7 @@ pip install -r requirements.txt
 > It is **not** an official OMB/Treasury product; validate against authoritative sources before use.
 
 
-## ⚙️ Step 1 – Imports and Setup
+## ⚙️  Imports and Setup
 ```
   import pandas as pd
   import numpy as np
@@ -198,7 +158,7 @@ pip install -r requirements.txt
 
 ```
 
-## 📏 Step 2 – Scaling (Numeric Columns)
+## 📏  Scaling (Numeric Columns)
 - a) StandardScaler → centers data around mean 0, std 1.
 - b) MinMaxScaler → rescales data to [0,1].
 ```
@@ -216,7 +176,7 @@ pip install -r requirements.txt
 
 ```
 
-## 🔖 Step 3 – Encoding (Nominal Columns)
+## 🔖  Encoding (Nominal Columns)
 - LabelEncoder: Converts categories → integers (good for ordinal/categorical with hierarchy).
 - OneHotEncoder: Expands categories into binary dummy variables (best for nominal IDs).
 ```
@@ -238,7 +198,7 @@ pip install -r requirements.txt
 
 ```
 
-## 🛠️ Step 4 – Imputation (Missing Values)
+## 🛠️ Imputation (Missing Values)
 - SimpleImputer: Replace missing values with mean/median/most_frequent/constant.
 - KNNImputer: Replace missing values based on nearest neighbors (handles anomalies better).
 ```
@@ -276,9 +236,95 @@ pip install -r requirements.txt
 
 ```
 
+## 2️⃣ MinMaxScaler (Normalization)
+- Rescales to [0,1].
+- Preserves shape of distribution but compresses range.
+```
+  scaler_minmax = MinMaxScaler()
+  scaled_minmax = scaler_minmax.fit_transform(df_numeric)
+  df_minmax_scaled = pd.DataFrame(scaled_minmax, columns=df_numeric.columns)
 
 
+```
 
+## 3️⃣ LabelEncoder
+- Maps categories → integers.
+- Example: MainAccount 0103 → 0.
+- Caution: Implies ordinal relationships that don’t exist.
+```
+  label_encoder = LabelEncoder()
+  encoded_main = label_encoder.fit_transform(df_nominal['MainAccount'])
+
+
+```
+
+## ⚙️ Dimensionality Reduction
+
+```
+  # --- PCA ---
+  pca = PCA(n_components=2)
+  X_pca = pca.fit_transform(X_scaled)
+  
+  # --- Incremental PCA ---
+  ipca = IncrementalPCA(n_components=2, batch_size=10)
+  X_ipca = ipca.fit_transform(X_scaled)
+  
+  # --- Truncated SVD ---
+  tsvd = TruncatedSVD(n_components=2)
+  X_tsvd = tsvd.fit_transform(X_scaled)
+  
+  # --- Factor Analysis ---
+  fa = FactorAnalysis(n_components=2)
+  X_fa = fa.fit_transform(X_scaled)
+  
+  # --- Isomap ---
+  isomap = Isomap(n_components=2)
+  X_isomap = isomap.fit_transform(X_scaled)
+  
+  # --- t-SNE (nonlinear, heavy) ---
+  tsne = TSNE(n_components=2, random_state=42, perplexity=30)
+  X_tsne = tsne.fit_transform(X_scaled)
+
+
+```
+
+## 🎯 Configuration
+
+- Set these variables near the top of the notebook:
+
+```
+python
+# ---- Configuration ----
+DATA_PATH  = "your_data.csv"   # Path to CSV
+COL_PY     = "PY"
+COL_CY     = "CY"
+COL_BY     = "BY"
+DROP_ZEROS = True              # Exclude zeros for plots/tests
+ALPHA      = 0.05              # Significance level
+CI_LEVEL   = 0.95              # Confidence interval level
+MU_0       = 0.0               # Baseline for one-sample t-test on CY
+```
+
+**Tips**
+
+- Use policy-relevant baselines for `MU_0` (e.g., enacted/planned levels) when zero is not
+  meaningful.
+- Filter the DataFrame by agency/account before running stats to produce slice-specific results.
+
+## 📦 Dependencies
+
+| Package       | Description                          | Link                                               |
+|---------------|--------------------------------------|----------------------------------------------------|
+| numpy         | Numerical computing                   | [numpy.org](https://numpy.org/)                    |
+| pandas        | Data manipulation                     | [pandas.pydata.org](https://pandas.pydata.org/)    |
+| matplotlib    | Plotting                              | [matplotlib.org](https://matplotlib.org/)          |
+| seaborn       | Statistical plots                     | [seaborn.pydata.org](https://seaborn.pydata.org/)  |
+| scikit-learn  | Machine learning models               | [scikit-learn.org](https://scikit-learn.org/)      |
+| xgboost       | Extreme gradient boosting             | [xgboost.readthedocs.io](https://xgboost.readthedocs.io/) |
+| statsmodels   | Statistical modeling & ANOVA          | [statsmodels.org](https://www.statsmodels.org/)    |
+| openpyxl      | Excel I/O                             | [openpyxl.readthedocs.io](https://openpyxl.readthedocs.io/) |
+| fitz (PyMuPDF)| PDF parsing                           | [pymupdf.readthedocs.io](https://pymupdf.readthedocs.io/) |
+| loguru        | Logging                               | [github.com/Delgan/loguru](https://github.com/Delgan/loguru) |
 
 ## 📝 License
 
