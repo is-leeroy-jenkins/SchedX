@@ -81,10 +81,10 @@ Open `ipynb/schedule-x.ipynb` and run cells top-to-bottom.
 - Feature creation via polynomial expansion
 - Dimensionality reduction and outlier detection
 
-## 🏛️ Use in Government
+## 🏛️ Government Use 
 
 - 📉 Budget Execution forecasting
-- 🏛️ OMB MAX A-11 DE 
+- 🏛️ OMB Reporting (MAX A-11 Data Entry )
 - 🧮 Audit prep and  anomaly detection
 
 ## 🔎 Data Expectations
