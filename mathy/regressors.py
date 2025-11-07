@@ -97,7 +97,7 @@ class Regressor( ):
 
 			Purpose:
 			---------
-			Fits the model to the training data
+			Fits the model to the training stores
 
 			Parameters:
 			-----------
@@ -442,7 +442,7 @@ class LinearRegressor( Regressor ):
 		linear dependence, the design matrix becomes close to singular and as a result,
 		the least-squares estimate becomes highly sensitive to random errors in the observed target,
 		producing a large variance. This situation of multicollinearity can arise, for example,
-		when data are collected without an experimental design.
+		when stores are collected without an experimental design.
 
 	"""
 	linear_regressor: skl.LinearRegression
@@ -2067,7 +2067,7 @@ class StochasticGradientRegressor( Regressor ):
 		because of the regularizer, the update is truncated to 0.0 to allow for learning sparse
 		models and achieve online feature selection.
 
-		This implementation works with data represented as dense numpy arrays of floating point
+		This implementation works with stores represented as dense numpy arrays of floating point
 		values for the feature_names.
 
 	"""
@@ -2597,9 +2597,9 @@ class DecisionTreeRegressor( Regressor ):
 		--------
 		Decision Trees (DTs) are a non-parametric supervised learning method used for
 		regression. The goal is to create a model that predicts the value of a
-		target variable by learning simple decision rules inferred from the data feature_names.
+		target variable by learning simple decision rules inferred from the stores feature_names.
 
-		A tree can be seen as a piecewise constant approximation. Decision trees learn from data
+		A tree can be seen as a piecewise constant approximation. Decision trees learn from stores
 		to approximate a sine curve with a set of if-then-else decision rules.
 		The deeper the tree, the more complex the decision rules and the fitter the model.
 
@@ -4417,7 +4417,7 @@ class SupportVectorRegressor:
 
 			Purpose:
 			--------
-			Fit the SVR model to the data.
+			Fit the SVR model to the stores.
 
 			Parameters:
 			___________

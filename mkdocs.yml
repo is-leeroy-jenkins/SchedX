@@ -24,6 +24,6 @@ nav:
           - Classifiers: modules/mathy/classifiers.md
           - Regressors: modules/mathy/regressors.md
           - Clusters: modules/mathy/clusters.md
-          - Data: modules/mathy/data.md
+          - Data: modules/mathy/stores.md
           - Preprocessors: modules/mathy/preprocessors.md
   - License: license.md

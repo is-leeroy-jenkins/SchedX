@@ -582,7 +582,7 @@ class CountVectorizer( Preprocessor ):
 		produces a sparse representation of the counts using scipy.sparse.csr_matrix. If you do not
 		provide an a-priori dictionary and you do not use an analyzer that does some kind of
 		feature selection then the number of feature_names will be equal to the vocabulary
-		size found by analyzing the data.
+		size found by analyzing the stores.
 
 	"""
 	count_vectorizer: sk.CountVectorizer
@@ -854,7 +854,7 @@ class StandardScaler( Preprocessor ):
 
 			Purpose:
 			---------
-			Transforms into standardized data.
+			Transforms into standardized stores.
 
 			Parameters:
 			-----------
@@ -890,7 +890,7 @@ class MinMaxScaler( Preprocessor ):
 		used as an alternative to zero mean, unit variance scaling.
 
 		MinMaxScaler doesn’t reduce the effect of outliers, but it linearly scales them down
-		into a fixed range, where the largest occurring data point corresponds to the maximum
+		into a fixed range, where the largest occurring stores point corresponds to the maximum
 		value and the smallest one corresponds to the minimum value
 
 	"""
@@ -975,7 +975,7 @@ class MinMaxScaler( Preprocessor ):
 
 			Purpose:
 			---------
-			Transforms back to original data
+			Transforms back to original stores
 
 			Parameters:
 			-----------
@@ -1005,13 +1005,13 @@ class RobustScaler( Preprocessor ):
 
 		Purpose:
 		--------
-		This Scaler removes the median and scales the data according to the quantile range
+		This Scaler removes the median and scales the stores according to the quantile range
 		(defaults to IQR: Interquartile Range). The IQR is the range between the 1st quartile
 		(25th quantile) and the 3rd quartile (75th quantile).
 
 		Centering and scaling happen independently on each feature by computing the relevant
 		statistics on the samples in the training set. Median and interquartile range are
-		then stored to be used on later data using the transform method.
+		then stored to be used on later stores using the transform method.
 
 		Standardization of a dataset is a common preprocessing for many machine learning estimators.
 		Typically this is done by removing the mean and scaling to unit variance.
@@ -1100,11 +1100,11 @@ class RobustScaler( Preprocessor ):
 
 			Purpose:
 			---------
-			Transforms into robust data.
+			Transforms into robust stores.
 
 			:param X: List of text text.
 			:type X: list[str]
-			:return: Standardized data.
+			:return: Standardized stores.
 			:rtype: np.ndarray
 		"""
 		try:
@@ -1127,7 +1127,7 @@ class NormalScaler( Preprocessor ):
 
 		Purpose:
 		---------
-		Normalize samples individually to unit norm. Each sample (i.e. each row of the data matrix)
+		Normalize samples individually to unit norm. Each sample (i.e. each row of the stores matrix)
 		with at least one non zero component is rescaled independently of other samples so that
 		its norm (l1, l2 or inf) equals one.
 
@@ -1228,7 +1228,7 @@ class OneHotEncoder( Preprocessor ):
 
 		By default, the encoder derives the categories based on the unique values in each feature.
 		Alternatively, you can also specify the categories manually. This encoding is needed for
-		feeding categorical data to many scikit-learn estimators, notably linear models and SVMs
+		feeding categorical stores to many scikit-learn estimators, notably linear models and SVMs
 		with the standard kernels. Note: a one-hot encoding of y target_names should use a
 		LabelBinarizer instead.
 
@@ -1313,7 +1313,7 @@ class OneHotEncoder( Preprocessor ):
 
 			Purpose:
 			--------
-			Fit the encoder and transform the data.
+			Fit the encoder and transform the stores.
 
 			Parameters:
 			-----------
@@ -1433,7 +1433,7 @@ class OrdinalEncoder( Preprocessor ):
 
 			Purpose:
 			--------
-			Fit the encoder and transform the data.
+			Fit the encoder and transform the stores.
 
 			Parameters:
 			-----------
@@ -1511,7 +1511,7 @@ class LabelEncoder( Preprocessor ):
 
 			Purpose:
 			--------
-			Fit the label encoder to the data.
+			Fit the label encoder to the stores.
 
 			Parameters:
 			-----------
@@ -1568,7 +1568,7 @@ class LabelEncoder( Preprocessor ):
 
 			Purpose:
 			--------
-			Fit and transform the label data.
+			Fit and transform the label stores.
 
 			Parameters:
 			-----------
@@ -1654,7 +1654,7 @@ class PolynomialFeatures( Preprocessor ):
 
 			Purpose:
 			--------
-			Fit polynomial transformer to data.
+			Fit polynomial transformer to stores.
 
 			Parameters:
 			-----------
@@ -1683,7 +1683,7 @@ class PolynomialFeatures( Preprocessor ):
 
 			Purpose:
 			--------
-			Transform data into polynomial feature_names.
+			Transform stores into polynomial feature_names.
 
 			Parameters:
 			-----------
@@ -1711,7 +1711,7 @@ class PolynomialFeatures( Preprocessor ):
 
 			Purpose:
 			--------
-			Fit and transform data using polynomial expansion.
+			Fit and transform stores using polynomial expansion.
 
 			Parameters:
 			-----------
@@ -1825,7 +1825,7 @@ class MeanImputer( Preprocessor ):
 
 			Purpose:
 			--------
-			Fit the iterative imputer and transform the data.
+			Fit the iterative imputer and transform the stores.
 
 			Parameters:
 			-----------
@@ -1973,7 +1973,7 @@ class NearestNeighborImputer( Preprocessor ):
 
 			Purpose:
 			---------
-			Fit the iterative imputer and transform the data.
+			Fit the iterative imputer and transform the stores.
 
 			Parameters:
 			-----------
@@ -2040,7 +2040,7 @@ class IterativeImputer( Preprocessor ):
 
 			Purpose:
 			--------
-			Fit the iterative imputer to the data.
+			Fit the iterative imputer to the stores.
 
 			Parameters:
 			-----------
@@ -2067,7 +2067,7 @@ class IterativeImputer( Preprocessor ):
 
 			Purpose:
 			---------
-			Transform data by iteratively imputing missing values.
+			Transform stores by iteratively imputing missing values.
 
 			Parameters:
 			-----------
@@ -2094,7 +2094,7 @@ class IterativeImputer( Preprocessor ):
 
 			Purpose:
 			--------
-			Fit the iterative imputer and transform the data.
+			Fit the iterative imputer and transform the stores.
 
 			Parameters:
 			-----------
@@ -2152,7 +2152,7 @@ class SimpleImputer( Preprocessor ):
 
 			Purpose:
 			--------
-			Fit the imputer to the data.
+			Fit the imputer to the stores.
 
 			Parameters:
 			-----------
@@ -2180,7 +2180,7 @@ class SimpleImputer( Preprocessor ):
 
 			Purpose:
 			--------
-			Transform data by imputing missing values.
+			Transform stores by imputing missing values.
 
 			Parameters:
 			-----------
@@ -2207,7 +2207,7 @@ class SimpleImputer( Preprocessor ):
 
 			Purpose:
 			--------
-			Fit the imputer and transform the data.
+			Fit the imputer and transform the stores.
 
 			Parameters:
 			-----------

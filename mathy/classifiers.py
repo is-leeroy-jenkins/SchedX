@@ -1172,9 +1172,9 @@ class StochasticGradientClassifier( Classifier ):
 		the gradient of the loss is estimated each sample at a time and the model is updated along
 		the way with a decreasing strength schedule (aka learning rate). SGD allows minibatch
 		(online/out-of-core) learning via the partial_fit method. For best results using the
-		default learning rate schedule, the data should have zero mean and unit variance.
+		default learning rate schedule, the stores should have zero mean and unit variance.
 
-		This implementation works with data represented as dense or sparse arrays of floating point
+		This implementation works with stores represented as dense or sparse arrays of floating point
 		 values for the feature_names. The model it fits can be controlled with the loss parameter;
 		 by default, it fits a linear support vector machine (SVM).
 
@@ -1841,9 +1841,9 @@ class DecisionTreeClassifier( Classifier ):
 		--------
 		Decision Trees (DTs) are a non-parametric supervised learning method used for
 		classification. The goal is to create a model that predicts the value of a
-		target variable by learning simple decision rules inferred from the data feature_names.
+		target variable by learning simple decision rules inferred from the stores feature_names.
 
-		A tree can be seen as a piecewise constant approximation. Decision trees learn from data
+		A tree can be seen as a piecewise constant approximation. Decision trees learn from stores
 		to approximate a sine curve with a set of if-then-else decision rules.
 		The deeper the tree, the more complex the decision rules and the fitter the model.
 
@@ -2504,7 +2504,7 @@ class GradientBoostingClassifier( Classifier ):
 		only a single regression tree is induced.
 
 		The feature_names are always randomly permuted at each split. Therefore, the best found split
-		may vary, even with the same training data and max_features=n_features, if the improvement
+		may vary, even with the same training stores and max_features=n_features, if the improvement
 		of the criterion is identical for several splits enumerated during the search of the best
 		split. To obtain a deterministic behaviour during fitting, rando has to be fixed.
 
@@ -4115,7 +4115,7 @@ class SupportVectorClassifier:
 		
 			Purpose:
 			---------
-			Fit the SVC model to the data.
+			Fit the SVC model to the stores.
 
 			Parameters:
 			-----------

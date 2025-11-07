@@ -1,14 +1,14 @@
 '''
 ******************************************************************************************
   Assembly:                Mathy
-  Filename:                data.py
+  Filename:                stores.py
   Author:                  Terry D. Eppler
   Created:                 05-31-2022
 
   Last Modified By:        Terry D. Eppler
   Last Modified On:        05-01-2025
 ******************************************************************************************
-<copyright file="data.py" company="Terry D. Eppler">
+<copyright file="stores.py" company="Terry D. Eppler">
 
      Mathy Data
 
@@ -36,7 +36,7 @@
 
 </copyright>
 <summary>
-	data.py
+	stores.py
 </summary>
 ******************************************************************************************
 '''
@@ -91,7 +91,7 @@ def entropy( p: float ) -> float | None:
 	except Exception as e:
 		exception = Error( e )
 		exception.module = 'mathy'
-		exception.cause = 'data'
+		exception.cause = 'stores'
 		exception.method = 'entropy( p: float ) -> float'
 		error = ErrorDialog( exception )
 		error.show( )
@@ -122,7 +122,7 @@ def gini_impurity( p: float ) -> float | None:
 	except Exception as e:
 		exception = Error( e )
 		exception.module = 'mathy'
-		exception.cause = 'data'
+		exception.cause = 'stores'
 		exception.method = 'gini_impurity( p: float ) -> float'
 		error = ErrorDialog( exception )
 		error.show( )
@@ -152,7 +152,7 @@ def misclassification_error( p: float ) -> float | None:
 	except Exception as e:
 		exception = Error( e )
 		exception.module = 'mathy'
-		exception.cause = 'data'
+		exception.cause = 'stores'
 		exception.method = 'misclassification_error( p: float ) -> float'
 		error = ErrorDialog( exception )
 		error.show( )
@@ -185,7 +185,7 @@ def sigmoid( z: float ) -> float | None:
 	except Exception as e:
 		exception = Error( e )
 		exception.module = 'mathy'
-		exception.cause = 'data'
+		exception.cause = 'stores'
 		exception.method = 'sigmoid( z: float ) -> float'
 		error = ErrorDialog( exception )
 		error.show( )
@@ -201,7 +201,7 @@ class DataSource( ):
 		Members:
 		------------
 		dataframe: pd.DataFrame
-		data: np.ndarray
+		stores: np.ndarray
 		n_samples: int
 		n_features: int
 		target: str
@@ -486,7 +486,7 @@ class DataSource( ):
 		except Exception as e:
 			exception = Error( e )
 			exception.module = 'Mathy'
-			exception.cause = 'data'
+			exception.cause = 'stores'
 			exception.method = 'show_histogram( self )'
 			error = ErrorDialog( exception )
 			error.show( )
@@ -514,7 +514,7 @@ class DataSource( ):
 		except Exception as e:
 			exception = Error( e )
 			exception.module = 'Mathy'
-			exception.cause = 'data'
+			exception.cause = 'stores'
 			exception.method = 'create_histogram( self, df: pd.DataFrame '
 			error = ErrorDialog( exception )
 			error.show( )
@@ -538,7 +538,7 @@ class DataSource( ):
 		except Exception as e:
 			exception = Error( e )
 			exception.module = 'Mathy'
-			exception.cause = 'data'
+			exception.cause = 'stores'
 			exception.method = 'show_correlation_analysis( self )'
 			error = ErrorDialog( exception )
 			error.show( )
@@ -567,7 +567,7 @@ class DataSource( ):
 		except Exception as e:
 			exception = Error( e )
 			exception.module = 'Mathy'
-			exception.cause = 'data'
+			exception.cause = 'stores'
 			exception.method = 'create_correlation_analysis( self, df: pd.DataFrame )'
 			error = ErrorDialog( exception )
 			error.show( )
@@ -883,7 +883,7 @@ class VarianceThreshold( ):
 
 			Purpose:
 			---------
-			Fit and transform the data using variance thresholding.
+			Fit and transform the stores using variance thresholding.
 
 			:param X: Feature matrix.
 			:type X: np.ndarray
@@ -1037,10 +1037,10 @@ class ComponentAnalysis( ):
 		Purpose:
 		---------
 		Principal Component Analysis (PCA). Linear dimensionality reduction using
-		Singular Value Decomposition of the data to project it to a lower dimensional space.
-		The input data is centered but not scaled for each feature before applying the SVD.
+		Singular Value Decomposition of the stores to project it to a lower dimensional space.
+		The input stores is centered but not scaled for each feature before applying the SVD.
 		It uses the LAPACK implementation of the full SVD or a randomized truncated SVD
-		by the method of Halko et al. 2009, depending on the shape of the input data and
+		by the method of Halko et al. 2009, depending on the shape of the input stores and
 		the number of components to extract.
 
 	"""
@@ -1072,7 +1072,7 @@ class ComponentAnalysis( ):
 
 			Purpose:
 			---------
-			Fit PCA to the input data.
+			Fit PCA to the input stores.
 
 			:param X: Feature matrix.
 			:type X: np.ndarray
@@ -1126,7 +1126,7 @@ class ComponentAnalysis( ):
 
 			Purpose:
 			---------
-			Fit PCA and transform input data.
+			Fit PCA and transform input stores.
 
 			:param X: Feature matrix.
 			:type X: np.ndarray
