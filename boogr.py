@@ -248,12 +248,12 @@ class ErrorDialog( Dark ):
 		self.button_forecolor = sg.theme_button_color_text( )
 		self.button_color = sg.theme_button_color( )
 		self.icon_path = r'\resources\images\schedx.ico'
-		self.theme_font = ('Roboto', 11)
+		self.theme_font = ('Roboto', 12)
 		self.scrollbar_color = '#755600'
 		sg.set_global_icon( icon = self.icon_path )
 		sg.set_options( font = self.theme_font )
 		sg.user_settings_save( 'Schedule-X', r'\resources\theme' )
-		self.form_size = (500, 300)
+		self.form_size = ( 500, 300 )
 		self.error = error
 		self.heading = error.heading
 		self.module = error.module
@@ -327,7 +327,7 @@ class ErrorDialog( Dark ):
 		_info = f'Module:\t{self.module}\r\nClass:\t{self.cause}\r\n' \
 		        f'Method:\t{self.method}\r\n \r\n{self.info}'
 		_red = '#F70202'
-		_font = ( 'Roboto', 10 )
+		_font = ( 'Roboto', 12 )
 		_padsz = (3, 3)
 		_layout = [ [ sg.Text( ) ],
 		            [ sg.Text( f'{_msg}', size=(100, 1), key='-MSG-', text_color=_red, font=_font ) ],
@@ -337,7 +337,7 @@ class ErrorDialog( Dark ):
 		            [ sg.Text( size=( 20, 1 ) ), sg.Cancel( size=( 15, 1 ), key='-CANCEL-' ),
 		              sg.Text( size=( 10, 1 ) ), sg.Ok( size=( 15, 1 ), key='-OK-' ) ] ]
 
-		_window = sg.Window( r' Schedule X', _layout,
+		_window = sg.Window( r' Schedule-X', _layout,
 			icon=self.icon_path,
 			font=self.theme_font,
 			force_toplevel=self.is_toplevel,
