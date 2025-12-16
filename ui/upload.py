@@ -8,9 +8,9 @@
       Last Modified By:        Terry D. Eppler
       Last Modified On:        05-01-2025
   ******************************************************************************************
-  <copyright file="guro.py" company="Terry D. Eppler">
+  <copyright file="upload.py" company="Terry D. Eppler">
 
-	     name.py
+	     upload.py
 	     Copyright ©  2022  Terry Eppler
 
      Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -46,31 +46,27 @@ import config as cfg
 import openai
 
 with st.sidebar:
-    openai_api_key = cfg.OPENAI_API_KEY
-    "[View the source code](https://github.com/streamlit/llm-examples/blob/main/pages/1_File_Q%26A.py)"
-    "[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/streamlit/llm-examples?quickstart=1)"
+	openai_api_key = cfg.OPENAI_API_KEY
+	('[View the source code](https://github.com/streamlit/llm-examples/blob/main/pages/1_File_Q%26A'
+	 '.py)')
+	('[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)]('
+	 'https://codespaces.new/streamlit/llm-examples?quickstart=1)')
 
-st.title("📝 File Q&A")
-uploaded_file = st.file_uploader("Upload an article", type=("txt", "md"))
-question = st.text_input(
-    "Ask something about the article",
-    placeholder="Can you give me a short summary?",
-    disabled=not uploaded_file,
-)
+st.title( '📝 Document Query' )
+uploaded_file = st.file_uploader( 'Upload a document', type=('txt', 'md') )
+question = st.text_input( 'Ask something about the article',
+	placeholder='Can you give me a short summary?', disabled=not uploaded_file, )
 
 if uploaded_file and question and not openai_api_key:
-    st.info("Please add your Anthropic API key to continue.")
+	st.info( 'Please add your OpenAI API key to continue.' )
 
 if uploaded_file and question and openai_api_key:
-    article = uploaded_file.read().decode()
-    prompt = f""" Here's an article:\n\n<article>
+	article = uploaded_file.read( ).decode( )
+	prompt = f""" Here's an article:\n\n<article>
     {article}\n\n</article>\n\n{question} """
-
-    client = openai.Client(api_key=openai_api_key)
-    response = client.completions.create(
-        prompt=prompt,
-        model="gpt-5-nano",
-        max_tokens_to_sample=10000,
-    )
-    st.write("### Answer")
-    st.write(response.completion)
+	
+	client = openai.Client( api_key=openai_api_key )
+	response = client.completions.create( prompt=prompt, model='gpt-5-nano',
+		max_tokens_to_sample=10000, )
+	st.write( '### Answer' )
+	st.write( response.completion )
