@@ -1,6 +1,6 @@
 '''
   ******************************************************************************************
-      Assembly:                Chonky
+      Assembly:                SchedX
       Filename:                boogr.py
       Author:                  Terry D. Eppler
       Created:                 05-31-2022
@@ -8,9 +8,9 @@
       Last Modified By:        Terry D. Eppler
       Last Modified On:        05-01-2025
   ******************************************************************************************
-  <copyright file="Chonky.py" company="Terry D. Eppler">
+  <copyright file="boogr.py" company="Terry D. Eppler">
 
-	 Chonky is a modular text-processing framework for machine-learning workflows based in python
+	 boogr is module UI application written in python
 
      Permission is hereby granted, free of charge, to any person obtaining a copy
      of this software and associated documentation files (the “Software”),
@@ -46,7 +46,7 @@ from pydantic import BaseModel
 import traceback
 import FreeSimpleGUI as sg
 from sys import exc_info
-from typing import List, Optional
+from typing import List, Optional, Tuple
 import html
 import re
 import unicodedata
@@ -78,6 +78,9 @@ class Dark( ):
 	theme_font: Optional[ Tuple[ str, int ] ]
 	scrollbar_color: Optional[ str ]
 	form_size: Optional[ Tuple[ int, int ] ]
+	resizeable: Optional[ bool ]
+	is_toplevel: Optional[ bool]
+	keep_on_top: Optional[ bool ]
 
 	def __init__( self ):
 		sg.theme( 'DarkGrey15' )
@@ -98,11 +101,14 @@ class Dark( ):
 		self.icon_path = r'\resources\images\schedx.ico'
 		self.theme_font = ( 'Roboto', 11 )
 		self.scrollbar_color = '#755600'
-		self.form_size = (400, 200)
+		self.form_size = (550, 300)
+		self.is_toplevel = True
+		self.resizeable = True
+		self.keep_on_top = True
 		sg.set_global_icon( icon=self.icon_path )
 		sg.set_options( font=self.theme_font )
 		sg.user_settings_save( 'Boo', r'\resources\theme' )
-
+	
 	def __dir__( self ) -> List[ str ] | None:
 		'''
 
@@ -119,11 +125,24 @@ class Dark( ):
 			List[ str ] | None
 
 		'''
-		return [ 'form_size', 'theme_background',
-		         'theme_textcolor', 'element_backcolor', 'element_forecolor',
-		         'text_forecolor', 'text_backcolor', 'input_backcolor',
-		         'input_forecolor', 'button_color', 'button_backcolor',
-		         'button_forecolor', 'icon_path', 'theme_font',  'scrollbar_color' ]
+		return [ 'form_size',
+		         'theme_background',
+		         'theme_textcolor',
+		         'element_backcolor',
+		         'element_forecolor',
+		         'text_forecolor',
+		         'text_backcolor',
+		         'input_backcolor',
+		         'input_forecolor',
+		         'button_color',
+		         'button_backcolor',
+		         'button_forecolor',
+		         'icon_path',
+		         'theme_font',
+		         'scrollbar_color',
+		         'is_toplevel',
+		         'keep_on_top',
+		         'resizeable' ]
 
 
 class Error( Exception ):
@@ -233,7 +252,7 @@ class ErrorDialog( Dark ):
 		self.scrollbar_color = '#755600'
 		sg.set_global_icon( icon = self.icon_path )
 		sg.set_options( font = self.theme_font )
-		sg.user_settings_save( 'Mathy', r'\resources\theme' )
+		sg.user_settings_save( 'Schedule-X', r'\resources\theme' )
 		self.form_size = (500, 300)
 		self.error = error
 		self.heading = error.heading
@@ -318,9 +337,12 @@ class ErrorDialog( Dark ):
 		            [ sg.Text( size=( 20, 1 ) ), sg.Cancel( size=( 15, 1 ), key='-CANCEL-' ),
 		              sg.Text( size=( 10, 1 ) ), sg.Ok( size=( 15, 1 ), key='-OK-' ) ] ]
 
-		_window = sg.Window( r' Mathy', _layout,
+		_window = sg.Window( r' Schedule X', _layout,
 			icon=self.icon_path,
 			font=self.theme_font,
+			force_toplevel=self.is_toplevel,
+			resizable=self.resizeable,
+			keep_on_top=self.keep_on_top,
 			size=self.form_size )
 
 		while True:
