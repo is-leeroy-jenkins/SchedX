@@ -53,7 +53,7 @@ x = np.array( data[ 'YearsExperience' ] ).reshape( -1, 1 )
 lr = LinearRegression( )
 lr.fit( x, np.array( data[ 'Salary' ] ) )
 
-st.title( "Salary Predictor" )
+st.title( "Schedule-X" )
 st.image( "stores//sal.jpg", width=800 )
 nav = st.sidebar.radio( "Navigation", [ "Home", "Prediction", "Contribute" ] )
 if nav == "Home":
