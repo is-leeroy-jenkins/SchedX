@@ -28,7 +28,7 @@ ___
 
 
 
-## 🎯 Quickstart
+## 🎯 Quickstart (Colab)
 
 ### Option A — Google Colab (no local setup)
 
@@ -56,14 +56,14 @@ jupyter notebook
 Open `ipynb/schedule-x.ipynb` and run cells top-to-bottom.
 
 
-## Installation & Run — Clone, Build, and Run the Streamlit App
+## 🎯  Quickstart (Streamlit)
 
 Follow these steps to clone the repository, create an isolated environment, install dependencies, and run the Schedule-X Streamlit app.
 
 > Replace `<REPO_URL>` below with the repository HTTPS or SSH URL that contains the app files (e.g., `https://github.com/you/your-repo.git`).
 > The app filename in these instructions is `app_schedule_x.py`. If your repo uses `app.py`, replace that name when running Streamlit.
 
----
+
 
 ### 1) Clone the repository
 
