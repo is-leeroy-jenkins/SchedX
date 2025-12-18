@@ -55,6 +55,152 @@ jupyter notebook
 
 Open `ipynb/schedule-x.ipynb` and run cells top-to-bottom.
 
+
+## Installation & Run — Clone, Build, and Run the Streamlit App
+
+Follow these steps to clone the repository, create an isolated environment, install dependencies, and run the Schedule-X Streamlit app.
+
+> Replace `<REPO_URL>` below with the repository HTTPS or SSH URL that contains the app files (e.g., `https://github.com/you/your-repo.git`).
+> The app filename in these instructions is `app_schedule_x.py`. If your repo uses `app.py`, replace that name when running Streamlit.
+
+---
+
+### 1) Clone the repository
+
+```bash
+# HTTPS
+git clone <REPO_URL> schedulex-app
+cd schedulex-app
+
+# or SSH
+git clone git@github.com:you/your-repo.git schedulex-app
+cd schedulex-app
+```
+
+---
+
+### 2) Recommended Python version
+
+Use a modern CPython version. **Recommended:** Python 3.11 or 3.12.
+Verify:
+
+```bash
+python --version
+# or
+python3 --version
+```
+
+---
+
+### 3) Create and activate a virtual environment
+
+**macOS / Linux**
+
+```bash
+python -m venv .venv
+source .venv/bin/activate
+python -m pip install --upgrade pip
+```
+
+**Windows (PowerShell)**
+
+```powershell
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+python -m pip install --upgrade pip
+```
+
+> If you prefer `venv` named `env` or `.env`, the commands are the same—just be consistent.
+
+---
+
+### 4) Install pinned dependencies
+
+Assumes `requirements.txt` is present in the repo root (the file produced previously).
+
+```bash
+pip install -r requirements.txt
+```
+
+If you want a lightweight install for development (editable install) include:
+
+```bash
+pip install -r requirements.txt
+pip install -e .
+```
+
+(Only needed if the repo provides a `setup.py` / `pyproject.toml` and you intend to develop the package.)
+
+---
+
+### 5) Run the Streamlit app
+
+```bash
+# default
+streamlit run app_schedule_x.py
+
+# specify a port (example)
+streamlit run app_schedule_x.py --server.port 8501
+
+# run in headless CI or container (no browser)
+streamlit run app_schedule_x.py --server.headless true
+```
+
+If your file is named `app.py`, substitute `app.py` for `app_schedule_x.py`.
+
+Streamlit will print the local URL (typically `http://localhost:8501`). Open that URL in your browser.
+
+---
+
+### 6) Using the app — datasets & options
+
+* The app expects the main data on an Excel sheet named `Data` (same behavior as the original notebook).
+* On first load use either:
+
+  * the **Upload** control in the sidebar to upload `CombinedSchedules.xlsx`, or
+  * set a **Fallback local Excel path** (sidebar text box) pointing to the file on disk (e.g., `/stores/excel/CombinedSchedules.xlsx`).
+* Sections available from the sidebar: Overview, Descriptive Statistics, Inferential Statistics,
+  Dimensionality Reduction, Clustering, Anomaly Detection, Correlation, Export.
+
+---
+
+### 7) Quick troubleshooting / tips
+
+* **Import errors after `pip install`** — confirm you activated the virtual environment where packages were installed. Re-run `python -m pip install -r requirements.txt`.
+* **Large Excel files** — increase system memory or pre-filter the workbook; Streamlit apps are memory-limited by the host environment.
+* **Missing sheet name** — open the Excel file and confirm the sheet named `Data` exists, or change the sheet name in the script where `pd.read_excel(..., sheet_name="Data")` is called.
+* **Port in use** — change the port with `--server.port` or stop the process using the port.
+* **Windows PowerShell script execution blocked** — if running `Activate.ps1` fails, you may need to set execution policy (run PowerShell as Administrator):
+
+  ```powershell
+  Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+  ```
+
+---
+
+### 8) Optional: Run with Docker
+
+A minimal Docker workflow (assumes a `Dockerfile` exists in repo). Example commands:
+
+```bash
+# build
+docker build -t schedulex:latest .
+
+# run (map port 8501)
+docker run --rm -p 8501:8501 schedulex:latest
+```
+
+If you want, I can produce a Dockerfile pinned to a specific Python base image and the above `requirements.txt`.
+
+---
+
+### 9) Developer / reproducibility notes
+
+* For heavy transforms, add `@st.cache_data` or `@st.cache_resource` decorators to expensive functions to speed interactive usage.
+* Save intermediate model artifacts (PCA, trained detectors) if you want reproducible exports; the app currently computes on demand.
+* If you want CI checks, add a `requirements-dev.txt` with `pytest`, `flake8` / `ruff`, and a GitHub Actions workflow to run tests on push.
+
+
 ## 📊 Regression
 
 - Linear, Ridge, Lasso, ElasticNet
