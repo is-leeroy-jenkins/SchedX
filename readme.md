@@ -32,6 +32,8 @@ ___
 
 ### Option A — Google Colab (no local setup)
 
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/is-leeroy-jenkins/SchedX/blob/master/shedule-x.ipynb)
+
 1. Click the **Open In Colab** badge above.
 2. Upload your CSV or mount Google Drive.
 3. Set `DATA_PATH` near the top of the notebook.
