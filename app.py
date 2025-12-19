@@ -170,12 +170,41 @@ def categorical_columns(df: pd.DataFrame) -> list[str]:
 # -----------------------------------------------------------------------------
 # Extended descriptive statistics
 # -----------------------------------------------------------------------------
+def safe_mad(series: pd.Series, scaled: bool = False) -> float:
+    """
+    Purpose:
+    --------
+    Compute the Median Absolute Deviation (MAD) robustly without depending on
+    SciPy version. Returns unscaled MAD by default. If `scaled=True`, returns
+    the consistency-corrected MAD (approx *1.4826) for normal distributions.
+
+    Parameters:
+    -----------
+    series: pd.Series
+        Numeric series (may contain NaNs).
+    scaled: bool
+        If True, return MAD scaled for normal consistency.
+
+    Returns:
+    --------
+    float: MAD (or np.nan if no values).
+    """
+    arr = np.asarray(series.dropna(), dtype=float)
+    if arr.size == 0:
+        return float("nan")
+    mad = float(np.median(np.abs(arr - np.median(arr))))
+    if scaled:
+        return mad * 1.4826
+    return mad
+
+
+# Replace the existing expanded_descriptive function with this:
 def expanded_descriptive(df: pd.DataFrame, cols: Sequence[str]) -> pd.DataFrame:
     """
     Purpose:
     --------
     Compute an expanded descriptive statistics DataFrame for the requested
-    numeric columns.
+    numeric columns. Uses a safe fallback for MAD if SciPy lacks the function.
 
     Parameters:
     -----------
@@ -192,12 +221,22 @@ def expanded_descriptive(df: pd.DataFrame, cols: Sequence[str]) -> pd.DataFrame:
     metrics: Dict[str, Dict[str, float]] = {}
     for c in cols:
         series = pd.to_numeric(df[c], errors="coerce")
-        n = series.count()
-        missing = series.isna().sum()
+        n = int(series.count())
+        missing = int(series.isna().sum())
+
         mean = float(series.mean()) if n else float("nan")
         median = float(series.median()) if n else float("nan")
         std = float(series.std(ddof=1)) if n else float("nan")
-        mad = float(stats.median_absolute_deviation(series.dropna())) if n else float("nan")
+
+        # MAD: try SciPy first (if available), otherwise use safe_mad()
+        try:
+            # some SciPy versions expose median_absolute_deviation
+            mad_val = stats.median_absolute_deviation(series.dropna())
+            # stats.median_absolute_deviation may return ndarray/scalar; coerce
+            mad = float(np.asarray(mad_val).item())
+        except Exception:
+            mad = float(safe_mad(series, scaled=False))
+
         skew = float(series.skew()) if n else float("nan")
         kurt = float(series.kurtosis()) if n else float("nan")
         cv = float(std / mean) if mean and not math.isnan(mean) else float("nan")
@@ -243,8 +282,8 @@ def expanded_descriptive(df: pd.DataFrame, cols: Sequence[str]) -> pd.DataFrame:
             "ks_stat": ks_stat,
             "ks_pval": ks_pval,
         }
+
     table = pd.DataFrame.from_dict(metrics, orient="index")
-    # order columns for readability
     preferred = [
         "count", "missing", "mean", "median", "std", "mad", "cv",
         "skewness", "kurtosis", "min", "1%", "25%", "75%", "99%", "max",
