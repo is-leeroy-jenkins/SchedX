@@ -369,41 +369,84 @@ def chi2_categorical(df: pd.DataFrame, cat1: str, cat2: str) -> Tuple[float, flo
 # -----------------------------------------------------------------------------
 @st.cache_data(ttl=600)
 def compute_pca(df: pd.DataFrame, cols: Sequence[str], n_components: int = 2) -> Tuple[pd.DataFrame, PCA]:
+    """
+    Purpose:
+    --------
+    Compute PCA on selected numeric columns. Coerce each column to numeric,
+    drop rows with any NaNs, standardize, then fit PCA.
+
+    Returns:
+    --------
+    (components_dataframe, fitted_pca_model)
+    """
     throw_if("cols", cols)
-    X = pd.to_numeric(df[list(cols)], errors="coerce").dropna(axis=0)
+    # Coerce each column individually to numeric (works for multi-column input)
+    Xdf = df[list(cols)].apply(pd.to_numeric, errors="coerce").dropna(axis=0)
+    if Xdf.shape[0] == 0:
+        # Return empty DataFrame and a PCA object (with random_state but not fitted)
+        return pd.DataFrame(), PCA(n_components=n_components, random_state=0)
     scaler = StandardScaler()
-    Xs = scaler.fit_transform(X)
+    Xs = scaler.fit_transform(Xdf)
     pca = PCA(n_components=n_components, random_state=0)
     comps = pca.fit_transform(Xs)
-    comps_df = pd.DataFrame(comps, columns=[f"PC{i+1}" for i in range(comps.shape[1])], index=X.index)
+    comps_df = pd.DataFrame(comps,
+                            columns=[f"PC{i+1}" for i in range(comps.shape[1])],
+                            index=Xdf.index)
     return comps_df, pca
 
 
 @st.cache_data(ttl=600)
 def compute_truncated_svd(df: pd.DataFrame, cols: Sequence[str], n_components: int = 2) -> pd.DataFrame:
-    X = pd.to_numeric(df[list(cols)], errors="coerce").dropna(axis=0)
+    """
+    Purpose:
+    --------
+    Compute truncated SVD projection for numeric columns.
+    """
+    Xdf = df[list(cols)].apply(pd.to_numeric, errors="coerce").dropna(axis=0)
+    if Xdf.shape[0] == 0:
+        return pd.DataFrame()
     scaler = StandardScaler()
-    Xs = scaler.fit_transform(X)
+    Xs = scaler.fit_transform(Xdf)
     svd = TruncatedSVD(n_components=n_components, random_state=0)
     comps = svd.fit_transform(Xs)
-    return pd.DataFrame(comps, columns=[f"SVD{i+1}" for i in range(n_components)], index=X.index)
+    return pd.DataFrame(comps,
+                        columns=[f"SVD{i+1}" for i in range(n_components)],
+                        index=Xdf.index)
 
 
 @st.cache_data(ttl=600)
 def compute_factor_analysis(df: pd.DataFrame, cols: Sequence[str], n_components: int = 2) -> pd.DataFrame:
-    X = pd.to_numeric(df[list(cols)], errors="coerce").dropna(axis=0)
+    """
+    Purpose:
+    --------
+    Compute Factor Analysis projection for numeric columns.
+    """
+    Xdf = df[list(cols)].apply(pd.to_numeric, errors="coerce").dropna(axis=0)
+    if Xdf.shape[0] == 0:
+        return pd.DataFrame()
     scaler = StandardScaler()
-    Xs = scaler.fit_transform(X)
+    Xs = scaler.fit_transform(Xdf)
     fa = FactorAnalysis(n_components=n_components, random_state=0)
     comps = fa.fit_transform(Xs)
-    return pd.DataFrame(comps, columns=[f"FA{i+1}" for i in range(n_components)], index=X.index)
-
+    return pd.DataFrame(comps,
+                        columns=[f"FA{i+1}" for i in range(n_components)],
+                        index=Xdf.index)
 
 @st.cache_data(ttl=600)
 def run_clustering(df: pd.DataFrame, cols: Sequence[str], method: str, **kwargs) -> pd.Series:
-    X = pd.to_numeric(df[list(cols)], errors="coerce").dropna(axis=0)
+    """
+    Purpose:
+    --------
+    Run clustering on selected numeric columns and return a Series of labels
+    indexed to the rows used for clustering.
+    """
+    Xdf = df[list(cols)].apply(pd.to_numeric, errors="coerce").dropna(axis=0)
+    if Xdf.shape[0] == 0:
+        return pd.Series(dtype=int)
+
     scaler = StandardScaler()
-    Xs = scaler.fit_transform(X)
+    Xs = scaler.fit_transform(Xdf)
+    method = method.lower()
     if method == "kmeans":
         k = int(kwargs.get("k", 3))
         model = KMeans(n_clusters=k, random_state=0)
@@ -413,13 +456,13 @@ def run_clustering(df: pd.DataFrame, cols: Sequence[str], method: str, **kwargs)
         min_samples = int(kwargs.get("min_samples", 5))
         model = DBSCAN(eps=eps, min_samples=min_samples)
         labels = model.fit_predict(Xs)
-    elif method == "agglo":
+    elif method in ("agglo", "agglomerative", "agglomerativeclustering"):
         n = int(kwargs.get("n_clusters", 3))
         model = AgglomerativeClustering(n_clusters=n)
         labels = model.fit_predict(Xs)
     else:
-        raise ValueError("Unknown clustering method")
-    return pd.Series(labels, index=X.index, name="cluster")
+        raise ValueError(f"Unknown clustering method '{method}'")
+    return pd.Series(labels, index=Xdf.index, name="cluster")
 
 
 # -----------------------------------------------------------------------------
@@ -427,9 +470,19 @@ def run_clustering(df: pd.DataFrame, cols: Sequence[str], method: str, **kwargs)
 # -----------------------------------------------------------------------------
 @st.cache_data(ttl=600)
 def detect_anomalies(df: pd.DataFrame, cols: Sequence[str], method: str, **kwargs) -> pd.Series:
-    Xdf = pd.to_numeric(df[list(cols)], errors="coerce").dropna(axis=0)
+    """
+    Purpose:
+    --------
+    Run anomaly detection on selected numeric columns and return Series of
+    predictions indexed to the rows used (1 for inlier, -1 for outlier).
+    """
+    Xdf = df[list(cols)].apply(pd.to_numeric, errors="coerce").dropna(axis=0)
+    if Xdf.shape[0] == 0:
+        return pd.Series(dtype=int)
+
     scaler = StandardScaler()
     X = scaler.fit_transform(Xdf)
+    method = method.lower()
     if method == "isolation_forest":
         clf = IsolationForest(random_state=0, n_estimators=int(kwargs.get("n_estimators", 100)))
         preds = clf.fit_predict(X)
@@ -437,15 +490,15 @@ def detect_anomalies(df: pd.DataFrame, cols: Sequence[str], method: str, **kwarg
         clf = OneClassSVM(kernel="rbf", nu=float(kwargs.get("nu", 0.05)), gamma="scale")
         preds = clf.fit_predict(X)
     elif method == "lof":
-        clf = LocalOutlierFactor(n_neighbors=int(kwargs.get("n_neighbors", 20)), contamination=float(kwargs.get("contamination", 0.05)))
+        clf = LocalOutlierFactor(n_neighbors=int(kwargs.get("n_neighbors", 20)),
+                                 contamination=float(kwargs.get("contamination", 0.05)))
         preds = clf.fit_predict(X)
     elif method == "elliptic":
         clf = EllipticEnvelope(contamination=float(kwargs.get("contamination", 0.05)), random_state=0)
         clf.fit(X)
         preds = clf.predict(X)
     else:
-        raise ValueError("Unknown anomaly method")
-    # local outlier factor uses -1 for outliers, 1 for inliers; keep that convention
+        raise ValueError(f"Unknown anomaly method '{method}'")
     return pd.Series(preds, index=Xdf.index, name="anomaly")
 
 
