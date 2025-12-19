@@ -32,12 +32,12 @@ ___
 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/is-leeroy-jenkins/SchedX/blob/master/shedule-x.ipynb)
 
+![](https://github.com/is-leeroy-jenkins/SchedX/blob/master/resources/ScheduleX-nb.gif)
+
 1. Click the **Open In Colab** badge above.
 2. Upload your CSV or mount Google Drive.
 3. Set `DATA_PATH` near the top of the notebook.
 4. **Runtime → Run all**.
-
-![](https://github.com/is-leeroy-jenkins/SchedX/blob/master/resources/ScheduleX-nb.gif)
 
 ### Option B — Local (conda or venv)
 
@@ -60,7 +60,10 @@ Open `ipynb/schedule-x.ipynb` and run cells top-to-bottom.
 
 ## 🎯  Quickstart (Streamlit)
 
-Follow these steps to clone the repository, create an isolated environment, install dependencies, and run the Schedule-X Streamlit app.
+![](https://github.com/is-leeroy-jenkins/SchedX/blob/master/resources/Schedule-X.gif)
+
+
+- Follow these steps to clone the repository, create an isolated environment, install dependencies, and run the Schedule-X Streamlit app.
 
 > Replace `<REPO_URL>` below with the repository HTTPS or SSH URL that contains the app files (e.g., `https://github.com/you/your-repo.git`).
 > The app filename in these instructions is `app_schedule_x.py`. If your repo uses `app.py`, replace that name when running Streamlit.
@@ -137,6 +140,8 @@ pip install -e .
 
 ### 5) Run the Streamlit app
 
+
+
 ```bash
 # default
 streamlit run app_schedule_x.py
@@ -151,8 +156,6 @@ streamlit run app_schedule_x.py --server.headless true
 If your file is named `app.py`, substitute `app.py` for `app_schedule_x.py`.
 
 Streamlit will print the local URL (typically `http://localhost:8501`). Open that URL in your browser.
-
-![](https://github.com/is-leeroy-jenkins/SchedX/blob/master/resources/Schedule-X.gif)
 
 ### 6) Using the app — datasets & options
 
