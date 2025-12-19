@@ -122,7 +122,7 @@ def fmt_num(x: float) -> str:
 # -----------------------------------------------------------------------------
 # Streamlit page config
 # -----------------------------------------------------------------------------
-st.set_page_config(page_title="Schedule-X — Analysis", layout="wide")
+st.set_page_config(page_title="Schedule-X", layout="wide", page_icon=r'resources\favicon.ico' )
 sns.set_style("whitegrid")
 
 
