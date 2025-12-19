@@ -190,10 +190,6 @@ docker build -t schedulex:latest .
 docker run --rm -p 8501:8501 schedulex:latest
 ```
 
-If you want, I can produce a Dockerfile pinned to a specific Python base image and the above `requirements.txt`.
-
----
-
 ### 9) Developer / reproducibility notes
 
 * For heavy transforms, add `@st.cache_data` or `@st.cache_resource` decorators to expensive functions to speed interactive usage.
