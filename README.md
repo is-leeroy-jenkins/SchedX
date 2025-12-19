@@ -37,6 +37,8 @@ ___
 3. Set `DATA_PATH` near the top of the notebook.
 4. **Runtime → Run all**.
 
+![](https://github.com/is-leeroy-jenkins/SchedX/blob/master/resources/ScheduleX-nb.gif)
+
 ### Option B — Local (conda or venv)
 
 ```
@@ -150,7 +152,7 @@ If your file is named `app.py`, substitute `app.py` for `app_schedule_x.py`.
 
 Streamlit will print the local URL (typically `http://localhost:8501`). Open that URL in your browser.
 
----
+![](https://github.com/is-leeroy-jenkins/SchedX/blob/master/resources/Schedule-X.gif)
 
 ### 6) Using the app — datasets & options
 
