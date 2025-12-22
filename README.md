@@ -60,6 +60,8 @@ Open `ipynb/schedule-x.ipynb` and run cells top-to-bottom.
 
 ## 🎯  Quickstart (Streamlit)
 
+[![Streamlit App](https://img.shields.io/badge/Streamlit-App-FF4B4B?logo=streamlit&logoColor=white)](https://schedx-py.streamlit.app/)
+
 ![](https://github.com/is-leeroy-jenkins/SchedX/blob/master/resources/Schedule-X.gif)
 
 
