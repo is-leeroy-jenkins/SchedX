@@ -48,9 +48,11 @@ import random
 from typing import Optional, Sequence, Tuple, Any, Dict
 
 import io
+import os
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+from pathlib import Path
 import seaborn as sns
 import streamlit as st
 
@@ -122,7 +124,7 @@ def fmt_num(x: float) -> str:
 # -----------------------------------------------------------------------------
 # Streamlit page config
 # -----------------------------------------------------------------------------
-st.set_page_config(page_title="Schedule-X", layout="wide", page_icon=r'resources\favicon.ico' )
+st.set_page_config(page_title="Schedule-X", layout="wide", page_icon='resources\\favicon.ico' )
 st.header( 'Combined Schedules (X):')
 sns.set_style("whitegrid")
 
@@ -135,38 +137,116 @@ def load_excel(uploaded_file: Optional[io.BytesIO], fallback_path: Optional[str]
     """
     Purpose:
     --------
-    Load the Excel workbook either from an uploaded file or a local fallback path.
-    Expects a sheet named 'Data' (as the notebook does). Returns DataFrame.
+    Load an Excel dataset either from an uploaded file or from a set of fallback
+    candidate paths. Tries sheet 'Data' first and falls back to the first sheet
+    if 'Data' is not present. Always returns a DataFrame (empty if nothing read).
 
     Parameters:
     -----------
     uploaded_file: Optional[io.BytesIO]
-        BytesIO from Streamlit uploader.
+        BytesIO from st.file_uploader. If provided, this is used first.
     fallback_path: Optional[str]
-        Local path to attempt if uploader is empty.
+        Optional path provided by user via the sidebar. Checked after uploaded_file.
 
     Returns:
     --------
     pd.DataFrame
     """
+    # 1) If user uploaded a file, try that first (preserves original behavior).
     if uploaded_file is not None:
-        df = pd.read_excel(uploaded_file, sheet_name="Data")
-        return df
+        try:
+            return pd.read_excel(uploaded_file, sheet_name="Data")
+        except ValueError:
+            # 'Data' sheet missing: try first sheet
+            try:
+                return pd.read_excel(uploaded_file, sheet_name=0)
+            except Exception:
+                return pd.DataFrame()
+        except Exception:
+            return pd.DataFrame()
+
+    # 2) Build candidate paths in order of preference
+    candidates: list[Path] = []
     if fallback_path:
-        df = pd.read_excel(fallback_path, sheet_name="Data")
-        return df
+        candidates.append(Path(fallback_path))
+    # canonical requested path (relative to repo / working dir)
+    candidates.append(Path("stores") / "excel" / "CombinedSchedules.xlsx")
+    # also try absolute path from current working directory
+    candidates.append(Path.cwd() / "stores" / "excel" / "CombinedSchedules.xlsx")
+    # optionally check environment variable (if user set one previously)
+    env_path = os.environ.get("SCHEDULEX_COMBINED_PATH")
+    if env_path:
+        candidates.append(Path(env_path))
+
+    # 3) Try each candidate; read 'Data' sheet first falling back to sheet 0
+    for p in candidates:
+        try:
+            if not p:
+                continue
+            p = p.expanduser()
+            if not p.exists():
+                continue
+            # Ensure we pass a string path to pandas on disk reads
+            try:
+                df = pd.read_excel(str(p), sheet_name="Data")
+                return df
+            except ValueError:
+                # 'Data' sheet missing: try first sheet index 0
+                try:
+                    df = pd.read_excel(str(p), sheet_name=0)
+                    return df
+                except Exception:
+                    continue
+            except Exception:
+                continue
+        except Exception:
+            # ignore and continue trying other candidates
+            continue
+
+    # 4) Nothing found — return empty DataFrame (app handles this later)
     return pd.DataFrame()
 
-
 def numeric_columns(df: pd.DataFrame) -> list[str]:
-    """Return numeric column names (excluding booleans)."""
-    return df.select_dtypes(include=[np.number]).columns.tolist()
+    """
+    Purpose:
+    --------
+    Return a list of numeric column names from the provided DataFrame.
+
+    Parameters:
+    -----------
+    df: pd.DataFrame
+        The dataframe to inspect.
+
+    Returns:
+    --------
+    list[str]: Column names whose dtype is numeric (excludes booleans).
+    """
+    if df is None or df.empty:
+        return []
+    # Use pandas selector for numeric dtypes and exclude bool
+    num_cols = df.select_dtypes(include=[np.number]).columns.tolist()
+    # Drop boolean-like columns if they slipped in (safety)
+    return [c for c in num_cols if not pd.api.types.is_bool_dtype(df[c])]
 
 
 def categorical_columns(df: pd.DataFrame) -> list[str]:
-    """Return object/categorical column names."""
-    return df.select_dtypes(include=["object", "category"]).columns.tolist()
+    """
+    Purpose:
+    --------
+    Return a list of categorical / object column names from the DataFrame.
 
+    Parameters:
+    -----------
+    df: pd.DataFrame
+        The dataframe to inspect.
+
+    Returns:
+    --------
+    list[str]: Column names with object or category dtypes.
+    """
+    if df is None or df.empty:
+        return []
+    return df.select_dtypes(include=["object", "category"]).columns.tolist()
 
 # -----------------------------------------------------------------------------
 # Extended descriptive statistics
@@ -631,7 +711,15 @@ def histogram_with_insight(series: pd.Series, bins: int = 30) -> None:
 with st.sidebar:
     st.title("Schedule-X")
     uploaded = st.file_uploader("Upload CombinedSchedules.xlsx (sheet 'Data')", type=["xlsx"])
-    fallback_path = st.text_input("Fallback local path (optional)", value="")
+    # Provide a sensible default fallback path if the file exists on the host
+    DEFAULT_FALLBACK = Path( "stores" ) / "excel" / "CombinedSchedules.xlsx"
+    default_fallback = str( DEFAULT_FALLBACK ) if DEFAULT_FALLBACK.exists( ) else ""
+    fallback_path_input = st.text_input(
+	    "Fallback local Excel path (optional)",
+	    value=default_fallback,
+	    help="If present, app will try this path automatically when no file is uploaded."
+    )
+    
     st.markdown("---")
     section = st.radio("Section", [
         "Overview",
@@ -649,7 +737,7 @@ with st.sidebar:
 
 # Load dataframe
 try:
-    df = load_excel(uploaded, fallback_path)
+    df = load_excel(uploaded, fallback_path_input)
 except Exception as ex:
     st.error(f"Failed to load dataset: {ex}")
     st.stop()
