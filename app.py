@@ -732,7 +732,6 @@ with st.sidebar:
         "Export",
     ])
     st.markdown("---")
-    st.caption("Refactor: multi-selects, richer stats, multiple algorithms, and improved visuals.")
 
 
 # Load dataframe
@@ -743,7 +742,7 @@ except Exception as ex:
     st.stop()
 
 if df.empty:
-    st.warning("No data loaded. Upload an Excel 'CombinedSchedules.xlsx' with sheet named 'Data'.")
+    st.warning("No data.")
     st.stop()
 
 # Show overview with improved table display
@@ -762,7 +761,7 @@ if section == "Overview":
     })
     show_styled_table(col_summary, height=350)
 
-    st.markdown("### Quick numeric snapshot")
+    st.markdown("### Numeric Snapshot")
     num_cols = numeric_columns(df)
     if num_cols:
         snapshot = df[num_cols].describe(percentiles=[0.01, 0.05, 0.1, 0.25, 0.5, 0.75, 0.9, 0.95, 0.99]).T
@@ -803,7 +802,7 @@ elif section == "Descriptive Statistics":
 
 # Inferential Statistics
 elif section == "Inferential Statistics":
-    st.header("Inferential Statistics — Expanded")
+    st.header("t-Test, Mann-Whitley, Chi-Square, ANOVA")
     num_cols = numeric_columns(df)
     cat_cols = categorical_columns(df)
     if not num_cols:
@@ -846,7 +845,7 @@ elif section == "Inferential Statistics":
         else:
             st.info("No categorical columns available to run ANOVA.")
 
-        st.markdown("#### Categorical association (Chi-square test)")
+        st.markdown("#### Categorical Association (Chi-square test)")
         if len(cat_cols) >= 2:
             cat1, cat2 = st.multiselect("Select two categorical columns for chi-square", cat_cols, default=cat_cols[:2])
             if isinstance(cat1, str) and isinstance(cat2, str) and cat1 != cat2:
@@ -860,7 +859,7 @@ elif section == "Inferential Statistics":
 
 # Feature Analysis (formerly Feature Correlations)
 elif section == "Feature Analysis":
-    st.header("Feature Analysis — correlations, PCA/LDA, cluster-aware summaries")
+    st.header("Feature Correlations, PCA/LDA, Cluster Analysis")
     num_cols = numeric_columns(df)
     cat_cols = categorical_columns(df)
     if not num_cols:
@@ -958,7 +957,7 @@ elif section == "Feature Analysis":
 
 # Dimensionality Reduction (multiple techniques)
 elif section == "Dimensionality Reduction":
-    st.header("Dimensionality Reduction — multiple techniques")
+    st.header("t-SNE, PCA, Factor Analysis, Support Vectors")
     num_cols = numeric_columns(df)
     if not num_cols:
         st.info("No numeric columns.")
@@ -1022,7 +1021,7 @@ elif section == "Dimensionality Reduction":
 
 # Clustering tab (multiple clustering options and better visualizations)
 elif section == "Clustering":
-    st.header("Clustering — multiple algorithms")
+    st.header("k-Means, DBSCAN, Agglomerative, PCA Projection")
     num_cols = numeric_columns(df)
     if not num_cols:
         st.info("No numeric columns.")
@@ -1073,7 +1072,7 @@ elif section == "Clustering":
 
 # Anomaly Detection tab (multiple options)
 elif section == "Anomaly Detection":
-    st.header("Anomaly Detection — multiple detectors")
+    st.header("One-Class Support Vectors, Local Outlier Factor, Isolation Forest, Elliptic Envelope")
     num_cols = numeric_columns(df)
     if not num_cols:
         st.info("No numeric columns.")
