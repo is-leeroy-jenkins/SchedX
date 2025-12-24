@@ -1120,6 +1120,6 @@ elif section == "Export":
 
 # End
 st.markdown("---")
-st.caption("Schedule-X viewer — refined by Bro. Use plotly (install with 'plotly') for hover tooltips.")
+st.caption("Schedule-X")
 
 
