@@ -1,15 +1,12 @@
 typing>=3.7.4.3
 pydantic>=2.11.7
 plotly
-FreeSimpleGUI>=5.2.0.post1
-fitz>=0.0.1.dev2
 pillow>=11.3.0
 scipy>=1.16.0
 mglearn>=0.2.0
 openai
 langchain
 altair
-streamlit==1.52.1
 pandas==2.3.3
 numpy==2.3.5
 scikit-learn==1.8.0

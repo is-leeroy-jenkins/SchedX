@@ -88,6 +88,13 @@ except Exception:
     TSNE_AVAILABLE = False
 
 # -----------------------------------------------------------------------------
+# CONSTANTS
+# -----------------------------------------------------------------------------
+LOGO = r'resources/schedule_x_logo.ico'
+BLUE_DIVIDER = "<div style='height:2px;align:left;background:#0078FC;margin:6px 0 10px 0;'></div>"
+FAVICON = r'resources/favicon.ico'
+
+# -----------------------------------------------------------------------------
 # Utility helpers (style and guards)
 # -----------------------------------------------------------------------------
 def throw_if(name: str, value: Any) -> None:
@@ -124,8 +131,10 @@ def fmt_num(x: float) -> str:
 # -----------------------------------------------------------------------------
 # Streamlit page config
 # -----------------------------------------------------------------------------
-st.set_page_config(page_title="Schedule-X", layout="wide", page_icon='resources\\favicon.ico' )
-st.header( 'Combined Schedules (X):')
+st.logo( LOGO, size='large' )
+st.set_page_config(page_title="Schedule-X", layout="wide", page_icon=FAVICON )
+st.markdown( '#### Combined Schedules (X):')
+st.markdown( BLUE_DIVIDER, unsafe_allow_html=True )
 sns.set_style("whitegrid")
 
 
@@ -249,7 +258,7 @@ def categorical_columns(df: pd.DataFrame) -> list[str]:
     return df.select_dtypes(include=["object", "category"]).columns.tolist()
 
 # -----------------------------------------------------------------------------
-# Extended descriptive statistics
+# Descriptive statistics
 # -----------------------------------------------------------------------------
 def safe_mad(series: pd.Series, scaled: bool = False) -> float:
     """
@@ -279,7 +288,6 @@ def safe_mad(series: pd.Series, scaled: bool = False) -> float:
     return mad
 
 
-# Replace the existing expanded_descriptive function with this:
 def expanded_descriptive(df: pd.DataFrame, cols: Sequence[str]) -> pd.DataFrame:
     """
     Purpose:
@@ -720,7 +728,7 @@ with st.sidebar:
 	    help="If present, app will try this path automatically when no file is uploaded."
     )
     
-    st.markdown("---")
+    st.markdown( BLUE_DIVIDER, unsafe_allow_html=True )
     section = st.radio("Section", [
         "Overview",
         "Descriptive Statistics",
@@ -731,7 +739,7 @@ with st.sidebar:
         "Anomaly Detection",
         "Export",
     ])
-    st.markdown("---")
+    st.markdown( BLUE_DIVIDER, unsafe_allow_html=True )
 
 
 # Load dataframe
@@ -745,15 +753,16 @@ if df.empty:
     st.warning("No data.")
     st.stop()
 
-# Show overview with improved table display
+# Overview Section
 if section == "Overview":
-    st.header("Data Overview")
-    st.markdown("### Sample (first 300 rows)")
-    # present a styled sample table
+    st.markdown("##### Data Overview")
+    st.text("Sample (first 300 rows)")
     sample = df.head(300).reset_index(drop=True)
     show_styled_table(sample, height=400)
 
-    st.markdown("### Column summary")
+    st.text("Column summary")
+
+    st.markdown( BLUE_DIVIDER, unsafe_allow_html=True )
     col_summary = pd.DataFrame({
         "dtype": df.dtypes.astype(str),
         "n_unique": df.nunique(dropna=True),
@@ -761,7 +770,8 @@ if section == "Overview":
     })
     show_styled_table(col_summary, height=350)
 
-    st.markdown("### Numeric Snapshot")
+    st.text("Numeric Snapshot")
+    st.markdown( BLUE_DIVIDER, unsafe_allow_html=True )
     num_cols = numeric_columns(df)
     if num_cols:
         snapshot = df[num_cols].describe(percentiles=[0.01, 0.05, 0.1, 0.25, 0.5, 0.75, 0.9, 0.95, 0.99]).T
@@ -772,7 +782,7 @@ if section == "Overview":
 
 # Descriptive Statistics
 elif section == "Descriptive Statistics":
-    st.header("Descriptive Statistics — Expanded")
+    st.markdown("##### Descriptive Statistics")
     num_cols = numeric_columns(df)
     if not num_cols:
         st.info("No numeric columns available.")
@@ -786,15 +796,17 @@ elif section == "Descriptive Statistics":
             # compute expanded descriptive statistics
             with st.spinner("Computing expanded descriptive statistics..."):
                 desc = expanded_descriptive(df, chosen)
-            st.subheader("Expanded descriptive statistics")
+            st.caption("Expanded statistics")
+            st.markdown( BLUE_DIVIDER, unsafe_allow_html=True )
             show_styled_table(desc, height=480)
 
-            st.subheader("Distribution preview and insights")
+            st.markdown( BLUE_DIVIDER, unsafe_allow_html=True )
+            st.markdown( "##### Distributions")
             # allow multi-preview of histograms (show 2 per row)
             cols_per_row = 2
             for i, col in enumerate(chosen):
                 if i % cols_per_row == 0:
-                    cols = st.columns(cols_per_row)
+                    cols = st.columns(cols_per_row, border=True )
                 with cols[i % cols_per_row]:
                     st.markdown(f"**{col}**")
                     histogram_with_insight(pd.to_numeric(df[col], errors="coerce"), bins=st.slider(f"bins_{col}", 10, 200, 40, key=f"bins_{col}"))
@@ -802,7 +814,7 @@ elif section == "Descriptive Statistics":
 
 # Inferential Statistics
 elif section == "Inferential Statistics":
-    st.header("t-Test, Mann-Whitley, Chi-Square, ANOVA")
+    st.markdown("##### t-Test")
     num_cols = numeric_columns(df)
     cat_cols = categorical_columns(df)
     if not num_cols:
@@ -810,15 +822,15 @@ elif section == "Inferential Statistics":
     else:
         default_num = num_cols[:6]
         chosen_num = st.multiselect("Numeric columns (tests run pairwise / multi)", num_cols, default=default_num)
-        st.markdown("#### Pairwise Welch's t-tests (for each column pair)")
+        st.caption("Pairwise Welch's t-tests (for each column pair)")
         if len(chosen_num) < 2:
             st.info("Select at least two numeric columns for pairwise t-tests.")
         else:
             tdf = pairwise_ttests(df, chosen_num)
             show_styled_table(tdf, height=280)
-            st.caption("Small p-values suggest significant mean differences. Use with context.")
 
-        st.markdown("#### Non-parametric tests (Mann–Whitney U)")
+        st.markdown( BLUE_DIVIDER, unsafe_allow_html=True )
+        st.markdown("##### Mann–Whitney U")
         if len(chosen_num) >= 2:
             rows = []
             for i, a in enumerate(chosen_num):
@@ -835,7 +847,8 @@ elif section == "Inferential Statistics":
         else:
             st.info("Select at least two numeric columns.")
 
-        st.markdown("#### ANOVA vs a categorical grouping (one-way ANOVA)")
+        st.markdown( BLUE_DIVIDER, unsafe_allow_html=True )
+        st.markdown("##### ANOVA (one-way)")
         if cat_cols:
             grouping = st.selectbox("Choose categorical grouping column (for ANOVA)", ["(none)"] + cat_cols)
             if grouping != "(none)":
@@ -845,13 +858,14 @@ elif section == "Inferential Statistics":
         else:
             st.info("No categorical columns available to run ANOVA.")
 
-        st.markdown("#### Categorical Association (Chi-square test)")
+        st.markdown( BLUE_DIVIDER, unsafe_allow_html=True )
+        st.markdown("##### Chi-Square Test")
         if len(cat_cols) >= 2:
             cat1, cat2 = st.multiselect("Select two categorical columns for chi-square", cat_cols, default=cat_cols[:2])
             if isinstance(cat1, str) and isinstance(cat2, str) and cat1 != cat2:
                 chi2, p, ct = chi2_categorical(df, cat1, cat2)
-                st.write(f"Chi-square: **{chi2:.3f}**; p-value: **{p:.3g}**")
-                st.write("Contingency table:")
+                st.caption(f"Chi-square: **{chi2:.3f}**; p-value: **{p:.3g}**")
+                st.caption("Contingency table:")
                 show_styled_table(ct, height=250)
             else:
                 st.info("Select two different categorical columns.")
@@ -859,7 +873,6 @@ elif section == "Inferential Statistics":
 
 # Feature Analysis (formerly Feature Correlations)
 elif section == "Feature Analysis":
-    st.header("Feature Correlations, PCA/LDA, Cluster Analysis")
     num_cols = numeric_columns(df)
     cat_cols = categorical_columns(df)
     if not num_cols:
@@ -870,20 +883,23 @@ elif section == "Feature Analysis":
             st.info("Select numeric features to analyze.")
         else:
             # Correlation matrix + heatmap
-            st.subheader("Correlation matrix (Pearson / Spearman)")
+            st.markdown( BLUE_DIVIDER, unsafe_allow_html=True )
+            st.markdown("##### Correlation matrix (Pearson / Spearman)")
             corr_method = st.selectbox("Method", ["pearson", "spearman", "kendall"], index=0)
             corr = df[chosen].corr(method=corr_method)
             show_styled_table(corr, height=360)
             st.caption("Values near ±1 indicate strong linear associations (Pearson).")
 
             # PCA summary & plot
-            st.subheader("PCA (explained variance and 2D projection)")
+            st.markdown( BLUE_DIVIDER, unsafe_allow_html=True )
+            st.markdown("##### PCA (explained variance and 2D projection)")
             n_pca = st.slider("PCA components", 2, min(10, max(2, len(chosen))), value=2)
             comps_df, pca_model = compute_pca(df, chosen, n_components=n_pca)
             ev = pd.Series(pca_model.explained_variance_ratio_, index=[f"PC{i+1}" for i in range(len(pca_model.explained_variance_ratio_))])
-            st.markdown("Explained variance ratio:")
+            st.text("Explained variance ratio:")
             st.bar_chart(ev)
             # 2D scatter of first two components
+            st.markdown( BLUE_DIVIDER, unsafe_allow_html=True )
             if "PC1" in comps_df.columns and "PC2" in comps_df.columns:
                 temp = comps_df.copy()
                 # if categorical target present, allow color mapping
@@ -900,11 +916,12 @@ elif section == "Feature Analysis":
                     scatter_plot(pd.concat([temp.reset_index(drop=True), df.loc[temp.index].reset_index(drop=True)], axis=1),
                                  "PC1", "PC2", hue=(target if target and target != "(none)" else None))
                 # interpretation
-                st.markdown(f"**Interpretation:** PC1 explains {ev.iloc[0]:.2%} of variance; PC2 explains {ev.iloc[1]:.2%}.")
+                st.caption(f"Interpretation: PC1 explains {ev.iloc[0]:.2%} of variance; PC2 explains {ev.iloc[1]:.2%}.")
 
             # LDA (if categorical target chosen)
             if cat_cols:
-                st.subheader("Linear Discriminant Analysis (LDA)")
+                st.markdown( BLUE_DIVIDER, unsafe_allow_html=True )
+                st.markdown("##### Linear Discriminant Analysis (LDA)")
                 lda_target = st.selectbox("Choose categorical target for LDA", ["(none)"] + cat_cols)
                 if lda_target != "(none)":
                     # prepare data
@@ -926,19 +943,20 @@ elif section == "Feature Analysis":
                             elif ld_df.shape[1] >= 2:
                                 scatter_plot(pd.concat([ld_df.reset_index(drop=True), df.loc[mask].reset_index(drop=True)], axis=1),
                                              "LD1", "LD2", hue=lda_target)
-                            st.markdown("LDA projects features to maximize class separation; inspect loadings for feature influence.")
+                            st.caption("LDA projects features to maximize class separation; inspect loadings for feature influence.")
                         except Exception as e:
                             st.error(f"LDA failed: {e}")
 
             # k-Means feature clustering (feature-space clustering)
-            st.subheader("k-Means (feature-space cluster summary)")
+            st.markdown( BLUE_DIVIDER, unsafe_allow_html=True )
+            st.markdown("#### k-Means Clustering")
             run_k = st.checkbox("Run k-Means clustering on selected features", value=False)
             if run_k:
                 k = st.slider("k clusters", 2, 12, 3)
                 labels = run_clustering(df, chosen, "kmeans", k=k)
                 # show cluster sizes and top feature means per cluster
                 counts = labels.value_counts().sort_index()
-                st.write("Cluster counts:")
+                st.caption("Cluster counts:")
                 st.table(counts)
                 # attach labels to df for cluster-level summaries
                 merged = df.loc[labels.index, chosen].copy()
@@ -957,7 +975,6 @@ elif section == "Feature Analysis":
 
 # Dimensionality Reduction (multiple techniques)
 elif section == "Dimensionality Reduction":
-    st.header("t-SNE, PCA, Factor Analysis, Support Vectors")
     num_cols = numeric_columns(df)
     if not num_cols:
         st.info("No numeric columns.")
@@ -970,7 +987,7 @@ elif section == "Dimensionality Reduction":
             n_components = st.slider("Components to compute", 2, min(10, max(2, len(chosen))), value=2)
             if method == "PCA":
                 comps, model = compute_pca(df, chosen, n_components)
-                st.markdown("Explained variance ratio:")
+                st.markdown("##### Explained variance ratio:")
                 ev = pd.Series(model.explained_variance_ratio_, index=[f"PC{i+1}" for i in range(len(model.explained_variance_ratio_))])
                 st.bar_chart(ev)
             elif method == "TruncatedSVD":
@@ -983,9 +1000,9 @@ elif section == "Dimensionality Reduction":
                 Xs = StandardScaler().fit_transform(X)
                 comps_vals = ipca.fit_transform(Xs)
                 comps = pd.DataFrame(comps_vals, columns=[f"IPCA{i+1}" for i in range(n_components)], index=X.index)
-            elif method == "t-SNE (sklearn)":
+            elif method == "t-SNE":
                 if not TSNE_AVAILABLE:
-                    st.info("scikit-learn TSNE is unavailable.")
+                    st.info("tSNE is unavailable.")
                     comps = pd.DataFrame()
                 else:
                     X = pd.to_numeric(df[chosen], errors="coerce").dropna(axis=0)
@@ -1003,6 +1020,8 @@ elif section == "Dimensionality Reduction":
                     reducer = umap.UMAP(n_components=n_components, random_state=0)
                     comps_vals = reducer.fit_transform(Xs)
                     comps = pd.DataFrame(comps_vals, columns=[f"UMAP{i+1}" for i in range(n_components)], index=X.index)
+                    
+            st.markdown( BLUE_DIVIDER, unsafe_allow_html=True )
             # show 2D scatter if possible
             if comps is not None and not comps.empty and comps.shape[1] >= 2:
                 temp = comps.copy()
@@ -1014,15 +1033,13 @@ elif section == "Dimensionality Reduction":
                     # create synthetic df with original columns for hue possibilities
                     scatter_plot(pd.concat([temp.reset_index(drop=True), df.loc[temp.index].reset_index(drop=True)], axis=1),
                                  temp.columns[0], temp.columns[1])
-                st.markdown("Interpretation: Inspect explained variance (PCA) or cluster separation for projection quality.")
             else:
                 st.info("Projection returned less than two components or failed.")
 
 
 # Clustering tab (multiple clustering options and better visualizations)
 elif section == "Clustering":
-    st.header("k-Means, DBSCAN, Agglomerative, PCA Projection")
-    num_cols = numeric_columns(df)
+    num_cols = numeric_columns( df )
     if not num_cols:
         st.info("No numeric columns.")
     else:
@@ -1044,10 +1061,11 @@ elif section == "Clustering":
             if labels.empty:
                 st.info("Clustering produced no labels (check data).")
             else:
-                st.subheader("Cluster membership (sample)")
+                st.markdown("##### Cluster Membership" )
                 sample_l = pd.concat([df.loc[labels.index, chosen], labels.rename("cluster")], axis=1)
                 show_styled_table(sample_l.head(300), height=420)
-                st.subheader("Cluster counts")
+                st.markdown( BLUE_DIVIDER, unsafe_allow_html=True )
+                st.markdown("##### Cluster Counts" )
                 st.table(labels.value_counts().sort_index())
                 # 2D projection for cluster visualization via PCA
                 try:
@@ -1072,7 +1090,6 @@ elif section == "Clustering":
 
 # Anomaly Detection tab (multiple options)
 elif section == "Anomaly Detection":
-    st.header("One-Class Support Vectors, Local Outlier Factor, Isolation Forest, Elliptic Envelope")
     num_cols = numeric_columns(df)
     if not num_cols:
         st.info("No numeric columns.")
@@ -1100,7 +1117,7 @@ elif section == "Anomaly Detection":
                 df_out = df.loc[results.index].copy()
                 df_out["anomaly"] = results.values
                 anomalies = df_out[df_out["anomaly"] == -1]
-                st.subheader(f"Anomalies detected: {len(anomalies)}")
+                st.text(f"Anomalies detected: {len(anomalies)}")
                 if len(anomalies) > 0:
                     show_styled_table(anomalies.head(300), height=420)
                     st.download_button("Download anomalies CSV", anomalies.to_csv(index=False).encode("utf-8"),
@@ -1111,7 +1128,7 @@ elif section == "Anomaly Detection":
 
 # Export tab
 elif section == "Export":
-    st.header("Export — Save processed artifacts")
+    st.text("Export — Save processed artifacts")
     st.markdown("You can download the raw sheet or processed outputs generated in other tabs.")
     st.download_button("Download raw data CSV", df.to_csv(index=False).encode("utf-8"),
                        file_name="schedulex_raw.csv", mime="text/csv")
@@ -1119,7 +1136,7 @@ elif section == "Export":
 
 
 # End
-st.markdown("---")
+st.markdown( BLUE_DIVIDER, unsafe_allow_html=True )
 st.caption("Schedule-X")
 
 
