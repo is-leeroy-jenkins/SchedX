@@ -146,13 +146,13 @@ pip install -e .
 
 ```bash
 # default
-streamlit run app_schedule_x.py
+streamlit run app.py
 
 # specify a port (example)
-streamlit run app_schedule_x.py --server.port 8501
+streamlit run app.py --server.port 8501
 
 # run in headless CI or container (no browser)
-streamlit run app_schedule_x.py --server.headless true
+streamlit run app.py --server.headless true
 ```
 
 If your file is named `app.py`, substitute `app.py` for `app_schedule_x.py`.
