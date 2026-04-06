@@ -4,7 +4,6 @@ plotly
 pillow>=11.3.0
 scipy>=1.16.0
 mglearn>=0.2.0
-openai
 langchain
 altair
 pandas==2.3.3
@@ -18,3 +17,5 @@ joblib==1.5.3
 threadpoolctl==3.6.0
 python-dateutil==2.9.0.post0
 pytz==2025.2
+streamlit
+streamlit-extras
