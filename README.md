@@ -29,7 +29,8 @@
 ## ☁️ Google (Cloud)
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/is-leeroy-jenkins/SchedX/blob/master/shedule-x.ipynb)
 - A hosted Jupyter Notebook service that requires no setup to use and provides free access to GPUs and TPUs.
-- 
+
+
 ### Option A — Google Colab (no local setup)
 
 
@@ -68,7 +69,6 @@ Open `ipynb/schedule-x.ipynb` and run cells top-to-bottom.
 ## 🧱 Databricks 
 [![Databricks Notebook](https://img.shields.io/badge/Databricks%20Repo-Schedule--X-FF3621?logo=databricks&logoColor=white)](https://dbc-a0c21f80-7bb3.cloud.databricks.com/editor/notebooks/3169291152437590?o=7474645703081351)
 - A data engineering, analytics, and artificial intelligence collaborative workspace
-
 - Follow these steps to clone the repository, create an isolated environment, install dependencies, and run the Schedule-X Streamlit app.
 
 > Replace `<REPO_URL>` below with the repository HTTPS or SSH URL that contains the app files (e.g., `https://github.com/you/your-repo.git`).
