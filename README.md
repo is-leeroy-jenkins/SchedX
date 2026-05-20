@@ -57,16 +57,16 @@ jupyter notebook
 
 Open `ipynb/schedule-x.ipynb` and run cells top-to-bottom.
 
-## 🧱 Databricks 
-
-[![Databricks Notebook](https://img.shields.io/badge/Databricks%20Repo-Schedule--X-FF3621?logo=databricks&logoColor=white)](https://dbc-a0c21f80-7bb3.cloud.databricks.com/editor/notebooks/3169291152437590?o=7474645703081351)
-
 ## 🎯  Quickstart (Streamlit)
 
 [![Streamlit App](https://img.shields.io/badge/Streamlit-App-FF4B4B?logo=streamlit&logoColor=white)](https://schedx-py.streamlit.app/)
 
 ![](https://github.com/is-leeroy-jenkins/SchedX/blob/master/resources/Schedule-X.gif)
 
+
+## 🧱 Databricks 
+
+[![Databricks Notebook](https://img.shields.io/badge/Databricks%20Repo-Schedule--X-FF3621?logo=databricks&logoColor=white)](https://dbc-a0c21f80-7bb3.cloud.databricks.com/editor/notebooks/3169291152437590?o=7474645703081351)
 
 - Follow these steps to clone the repository, create an isolated environment, install dependencies, and run the Schedule-X Streamlit app.
 
