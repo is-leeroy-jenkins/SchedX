@@ -10,9 +10,9 @@
 - **Data Hygiene** — numeric coercion and optional zero exclusion to stabilize analyses.
 - **ML Helper** — compact `plot_decision_regions` utility for quick analysis.
 
-## Demo
+## 🎥 Demo
 
-![](https://github.com/is-leeroy-jenkins/Sched-X/blob/master/resources/images/git/schedx-demo.gif)
+![](https://github.com/is-leeroy-jenkins/SchedX/blob/master/resources/images/schedx-demo.gif)
 
 
 ## 📈 Table of Contents
