@@ -28,9 +28,10 @@
 
 ## 🎯 Quickstart (Colab)
 
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/is-leeroy-jenkins/SchedX/blob/master/shedule-x.ipynb)
+
 ### Option A — Google Colab (no local setup)
 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/is-leeroy-jenkins/SchedX/blob/master/shedule-x.ipynb)
 
 ![](https://github.com/is-leeroy-jenkins/SchedX/blob/master/resources/ScheduleX-nb.gif)
 
