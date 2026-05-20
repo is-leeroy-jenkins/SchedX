@@ -1,8 +1,10 @@
 ###### Schedule-X
-![](https://github.com/is-leeroy-jenkins/Sched-X/blob/master/resources/images/git/schedx.png)
-___
-#### A machine-learning pipeline for Combined Schedule (X) reporting.
+![](https://github.com/is-leeroy-jenkins/Sched-X/blob/master/resources/images/git/schedx-demo.gif)
 
+- A machine-learning toolkit for Combined-Schedule (Schedule X) Analysis and Reporting..
+
+## Demo
+![](https://github.com/is-leeroy-jenkins/Sched-X/blob/master/resources/images/git/schedx.png)
 ## 📊 Features
 
 - **Descriptive Statistics** — `count`, `mean`, `std`, `min/max`, quartiles, **skew**, **kurtosis**.
