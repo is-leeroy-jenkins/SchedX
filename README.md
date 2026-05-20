@@ -1,9 +1,4 @@
 ###### Schedule-X
-![](https://github.com/is-leeroy-jenkins/Sched-X/blob/master/resources/images/git/schedx-demo.gif)
-
-- A machine-learning toolkit for Combined-Schedule (Schedule X) Analysis and Reporting..
-
-## Demo
 ![](https://github.com/is-leeroy-jenkins/Sched-X/blob/master/resources/images/git/schedx.png)
 ## 📊 Features
 
@@ -15,6 +10,9 @@
 - **Data Hygiene** — numeric coercion and optional zero exclusion to stabilize analyses.
 - **ML Helper** — compact `plot_decision_regions` utility for quick analysis.
 
+## Demo
+
+![](https://github.com/is-leeroy-jenkins/Sched-X/blob/master/resources/images/git/schedx-demo.gif)
 
 
 ## 📈 Table of Contents
