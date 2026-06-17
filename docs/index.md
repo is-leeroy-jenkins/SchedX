@@ -2,7 +2,7 @@
 
 ___
 
-Schedx, also referred to as Schedule-X, is a Streamlit analytics application for exploring Schedule-X-style budget datasets. It loads a `CombinedSchedules.xlsx` workbook, prepares the data for analysis, and supports descriptive statistics, inferential statistics, feature analysis, dimensionality reduction, clustering, anomaly detection, and CSV export workflows.
+Schedule-X analytics application for OMB reporting written in Python. It prepares the Combined Scedule for analysis, and supports descriptive statistics, inferential statistics, feature analysis, dimensionality reduction, clustering, anomaly detection, and CSV export workflows.
 
 ## 🧭 Purpose
 
@@ -24,7 +24,7 @@ Schedx gives analysts a repeatable interface for inspecting budget-year and outy
 
 ## 🏛️ Government Analytics Context
 
-Schedx is useful for analytical exploration of federal budget structures, OMB reporting data, audit preparation, anomaly detection, and exploratory financial modeling.
+Schedx is used  for analytical exploration of federal budget structures, OMB reporting data, audit preparation, anomaly detection, and exploratory financial modeling.
 
 ## 🚀 Quick Start
 

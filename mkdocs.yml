@@ -1,10 +1,10 @@
 site_name: Schedx Documentation
 site_description: Documentation for the Schedx Schedule-X analytics application.
 site_author: Terry D. Eppler
-site_url: ""
+site_url: "https://is-leeroy-jenkins.github.io/SchedX/"
 
-repo_url: ""
-repo_name: ""
+repo_url: "https://github.com/is-leeroy-jenkins/schedx.git"
+repo_name: "Schedule-X"
 
 theme:
   name: material
@@ -72,7 +72,7 @@ extra_javascript:
 nav:
   - Home: index.md
   - Architecture: architecture.md
-  - Data Expectations: data-expectations.md
+  - Combined Schedule: data-expectations.md
   - User Guide:
       - Overview: user-guide/index.md
       - Installation: user-guide/installation.md
