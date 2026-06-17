@@ -1,5 +1,9 @@
 ###### Schedule-X
 ![](https://github.com/is-leeroy-jenkins/Sched-X/blob/master/resources/images/git/schedx.png)
+___
+
+[![Documentation](https://img.shields.io/badge/docs-GitHub%20Pages-0078FC?style=for-the-badge&logo=github)](<<PATH TO DOCS GITHUB PAGES>>)
+
 ## 📊 Features
 
 - **Descriptive Statistics** — `count`, `mean`, `std`, `min/max`, quartiles, **skew**, **kurtosis**.
