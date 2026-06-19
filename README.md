@@ -19,6 +19,11 @@ ___
 ![](https://github.com/is-leeroy-jenkins/SchedX/blob/master/resources/images/schedx-demo.gif)
 ___
 
+## 🧊 Azure
+
+[![Containerized](https://img.shields.io/badge/Docker-App-2496ED?logo=docker&logoColor=white)](https://schedx.gentlesand-4b236f2b.centralus.azurecontainerapps.io )
+- Container App
+
 ## 🔥 Streamlit
 
 [![Streamlit App](https://img.shields.io/badge/Streamlit-App-FF4B4B?logo=streamlit&logoColor=white)](https://schedx-py.streamlit.app/)
