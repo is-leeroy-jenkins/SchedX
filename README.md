@@ -17,7 +17,28 @@ ___
 ## 🎥 Demo
 
 ![](https://github.com/is-leeroy-jenkins/SchedX/blob/master/resources/images/schedx-demo.gif)
+___
 
+## 🔥 Streamlit
+
+[![Streamlit App](https://img.shields.io/badge/Streamlit-App-FF4B4B?logo=streamlit&logoColor=white)](https://schedx-py.streamlit.app/)
+
+- A Python framework to build dynamic, interactive web applications.
+
+## 🧱 Databricks
+
+[![Databricks Notebook](https://img.shields.io/badge/Databricks%20Repo-Schedule--X-FF3621?logo=databricks&logoColor=white)](https://dbc-a0c21f80-7bb3.cloud.databricks.com/editor/notebooks/3169291152437590?o=7474645703081351)
+
+- A data engineering, analytics, and artificial intelligence collaborative workspace
+- Follow these steps to clone the repository, create an isolated environment, install dependencies,
+  and run the Schedule-X Streamlit app.
+
+## ☁️ Google
+
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/is-leeroy-jenkins/SchedX/blob/master/shedule-x.ipynb)
+
+- A hosted Jupyter Notebook service that requires no setup to use and provides free access to GPUs
+  and TPUs.
 
 ## 📈 Table of Contents
 
@@ -28,11 +49,6 @@ ___
 - [References](#-references)
 - [License](#-license)
 
-
-
-## ☁️ Google (Cloud)
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/is-leeroy-jenkins/SchedX/blob/master/shedule-x.ipynb)
-- A hosted Jupyter Notebook service that requires no setup to use and provides free access to GPUs and TPUs.
 
 
 ### Option A — Google Colab (no local setup)
@@ -63,20 +79,9 @@ jupyter notebook
 
 Open `ipynb/schedule-x.ipynb` and run cells top-to-bottom.
 
-## 🕸️ Streamlit (Web)
-[![Streamlit App](https://img.shields.io/badge/Streamlit-App-FF4B4B?logo=streamlit&logoColor=white)](https://schedx-py.streamlit.app/)
-- A Python framework to build dynamic, interactive web applications.
 
 ![](https://github.com/is-leeroy-jenkins/SchedX/blob/master/resources/Schedule-X.gif)
-
-
-## 🧱 Databricks 
-[![Databricks Notebook](https://img.shields.io/badge/Databricks%20Repo-Schedule--X-FF3621?logo=databricks&logoColor=white)](https://dbc-a0c21f80-7bb3.cloud.databricks.com/editor/notebooks/3169291152437590?o=7474645703081351)
-- A data engineering, analytics, and artificial intelligence collaborative workspace
-- Follow these steps to clone the repository, create an isolated environment, install dependencies, and run the Schedule-X Streamlit app.
-
-> Replace `<REPO_URL>` below with the repository HTTPS or SSH URL that contains the app files (e.g., `https://github.com/you/your-repo.git`).
-> The app filename in these instructions is `app_schedule_x.py`. If your repo uses `app.py`, replace that name when running Streamlit.
+___
 
 
 
