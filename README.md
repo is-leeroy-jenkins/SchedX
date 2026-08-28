@@ -24,28 +24,35 @@ ___
 <table>
 <tr>
 <td align="center">
-<img width="152" height="1" alt=""><br>
+<img width="150" height="1" alt=""><br>
 <a href="https://schedx-py.streamlit.app/">
 <img src="https://img.shields.io/badge/Streamlit-App-FF4B4B?logo=streamlit&logoColor=white" alt="Streamlit App">
 </a>
 </td>
 
 <td align="center">
-<img width="152" height="1" alt=""><br>
+<img width="150" height="1" alt=""><br>
+<a href="https://sake.ashystone-c8f41cd1.centralus.azurecontainerapps.io">
+<img src="https://img.shields.io/badge/Docker-App-2496ED?logo=docker&logoColor=white" alt="Docker App">
+</a>
+</td>
+
+<td align="center">
+<img width="150" height="1" alt=""><br>
 <a href="https://schedx.gentlesand-4b236f2b.centralus.azurecontainerapps.io">
 <img src="https://img.shields.io/badge/Docker-App-2496ED?logo=docker&logoColor=white" alt="Docker App">
 </a>
 </td>
 
 <td align="center">
-<img width="152" height="1" alt=""><br>
+<img width="150" height="1" alt=""><br>
 <a href="https://colab.research.google.com/github/is-leeroy-jenkins/SchedX/blob/master/shedule-x.ipynb">
 <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab">
 </a>
 </td>
 
 <td align="center">
-<img width="152" height="1" alt=""><br>
+<img width="150" height="1" alt=""><br>
 <a href="https://dbc-a0c21f80-7bb3.cloud.databricks.com/editor/notebooks/3169291152437590?o=7474645703081351">
 <img src="https://img.shields.io/badge/Databricks%20Repo-SchedX-FF3621?logo=databricks&logoColor=white" alt="Databricks Repo">
 </a>
