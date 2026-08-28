@@ -47,7 +47,7 @@ ___
 <td align="center">
 <img width="152" height="1" alt=""><br>
 <a href="https://dbc-a0c21f80-7bb3.cloud.databricks.com/editor/notebooks/3169291152437590?o=7474645703081351">
-<img src="https://img.shields.io/badge/Databricks-Schedule-X-FF3621?logo=databricks&logoColor=white" alt="Databricks Repo">
+<img src="https://img.shields.io/badge/Databricks%20Repo-SchedX-FF3621?logo=databricks&logoColor=white" alt="Databricks Repo">
 </a>
 </td>
 
