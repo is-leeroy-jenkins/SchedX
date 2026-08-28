@@ -19,31 +19,48 @@ ___
 ![](https://github.com/is-leeroy-jenkins/SchedX/blob/master/resources/images/schedx-demo.gif)
 ___
 
-## 🧊 Azure
+## ☁️ Cloud
 
-[![Containerized](https://img.shields.io/badge/Docker-App-2496ED?logo=docker&logoColor=white)](https://schedx.gentlesand-4b236f2b.centralus.azurecontainerapps.io )
-- Container App
+<table>
+<tr>
+<td align="center">
+<img width="152" height="1" alt=""><br>
+<a href="https://schedx-py.streamlit.app/">
+<img src="https://img.shields.io/badge/Streamlit-App-FF4B4B?logo=streamlit&logoColor=white" alt="Streamlit App">
+</a>
+</td>
 
-## 🔥 Streamlit
+<td align="center">
+<img width="152" height="1" alt=""><br>
+<a href="https://schedx.gentlesand-4b236f2b.centralus.azurecontainerapps.io">
+<img src="https://img.shields.io/badge/Docker-App-2496ED?logo=docker&logoColor=white" alt="Docker App">
+</a>
+</td>
 
-[![Streamlit App](https://img.shields.io/badge/Streamlit-App-FF4B4B?logo=streamlit&logoColor=white)](https://schedx-py.streamlit.app/)
+<td align="center">
+<img width="152" height="1" alt=""><br>
+<a href="https://colab.research.google.com/github/is-leeroy-jenkins/SchedX/blob/master/shedule-x.ipynb">
+<img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab">
+</a>
+</td>
 
-- A Python framework to build dynamic, interactive web applications.
+<td align="center">
+<img width="152" height="1" alt=""><br>
+<a href="https://dbc-a0c21f80-7bb3.cloud.databricks.com/editor/notebooks/3169291152437590?o=7474645703081351">
+<img src="https://img.shields.io/badge/Databricks%20Repo-Sched-X-FF3621?logo=databricks&logoColor=white" alt="Databricks Notebook">
+</a>
+</td>
 
-## 🧱 Databricks
 
-[![Databricks Notebook](https://img.shields.io/badge/Databricks%20Repo-Schedule--X-FF3621?logo=databricks&logoColor=white)](https://dbc-a0c21f80-7bb3.cloud.databricks.com/editor/notebooks/3169291152437590?o=7474645703081351)
+<td align="center">
+<img width="152" height="1" alt=""><br>
+<a href="https://leeroy.usw-16.palantirfoundry.com/shares/links/xfdusnf2hi7va">
+<img src="https://img.shields.io/badge/Palantir%20Foundry-Repo-101113?logo=palantir&logoColor=white" alt="Repo">
+</a>
+</td>
+</tr>
+</table>
 
-- A data engineering, analytics, and artificial intelligence collaborative workspace
-- Follow these steps to clone the repository, create an isolated environment, install dependencies,
-  and run the Schedule-X Streamlit app.
-
-## ☁️ Google
-
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/is-leeroy-jenkins/SchedX/blob/master/shedule-x.ipynb)
-
-- A hosted Jupyter Notebook service that requires no setup to use and provides free access to GPUs
-  and TPUs.
 
 ## 📈 Table of Contents
 
